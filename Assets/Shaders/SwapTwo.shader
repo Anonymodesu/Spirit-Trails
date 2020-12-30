@@ -1,4 +1,5 @@
-﻿Shader "Custom/SwapTwo" {
+﻿// from https://github.com/RetryEntry/UnityAnimatorChangeSprite
+Shader "Custom/SwapTwo" {
      Properties
      {
          [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
