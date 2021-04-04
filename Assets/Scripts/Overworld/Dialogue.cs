@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Dialogue : MonoBehaviour {
 
@@ -13,16 +14,14 @@ public class Dialogue : MonoBehaviour {
     private Button nextButton;
     [SerializeField]
     private Image background;
-
-    private bool buttonPressed;
+    [SerializeField]
+    private GameObject choicesList;
+    [SerializeField]
+    private Button choiceButton;
 
     // Start is called before the first frame update
     void Start() {
         SetActive(false);
-
-        nextButton.onClick.AddListener(() => {
-            buttonPressed = true;
-        });
     }
 
     // Update is called once per frame
@@ -30,40 +29,82 @@ public class Dialogue : MonoBehaviour {
 
     }
 
-    public void Initiate(string[] messages, Action onComplete) {
 
-        //print out a message's characters in sequence
-        IEnumerator AutotypeMessage(string message) {
-            text.text = "";
-            foreach(char letter in message.ToCharArray()) {
-                yield return new WaitForSeconds(timePerChar);
+    //print out a message's characters in sequence
+    private IEnumerator AutotypeMessage(string message) {
+        bool buttonPressed = false;
+        UnityAction action = () => {
+            buttonPressed = true;
+        };
+        nextButton.onClick.AddListener(action); 
 
-                if(buttonPressed) {
-                    buttonPressed = false;
-                    break;
+        text.text = "";
+        foreach (char letter in message.ToCharArray()) {
+            yield return new WaitForSeconds(timePerChar);
+
+            if (buttonPressed) {
+                buttonPressed = false;
+                break;
+            }
+            text.text += letter;
+        }
+        text.text = message;
+        nextButton.onClick.RemoveListener(action);
+    }
+
+    // Displays the choices at the end of the DialogueTree
+    private IEnumerator ActivateChoices(DialogueTree messages) {
+        bool buttonPressed = false;
+
+        //Delete previous children from the list of choices i.e. any previous choice buttons
+        foreach (Transform choiceButton in choicesList.transform) {
+            Destroy(choiceButton.gameObject);
+        }
+
+        //Instantiate new choice buttons
+        DialogueChoice choices = messages.Choices;
+        if (choices.Choices.Count > 0) {
+            if (choices.Type == DialogueChoice.ChoiceType.User) {
+                foreach (DialogueChoice.Choice choice in choices.Choices) {
+                    Button button = Instantiate(choiceButton, choicesList.transform);
+                    button.GetComponentInChildren<Text>().text = choice.DisplayText;
+                    button.onClick.AddListener(() => { buttonPressed = true; });
                 }
-                text.text += letter;
             }
-            text.text = message;
         }
 
-        IEnumerator EngageDialogue() {
-            foreach (string message in messages) {
-                buttonPressed = false;                
-                yield return AutotypeMessage(message);
-                yield return new WaitUntil(() => buttonPressed);
-            }
-            SetActive(false);
-            onComplete();
-        }
+        choicesList.SetActive(true);
+        yield return new WaitUntil(() => buttonPressed);
+        choicesList.SetActive(false);
+    }
 
+
+    private IEnumerator EngageDialogue(DialogueTree messages) {
+        foreach (DialogueElement message in messages.DialogItems) {
+            yield return AutotypeMessage(message.DialogueText);
+
+            // Wait for the button to be pressed before advancing
+            bool buttonPressed = false;
+            UnityAction action = () => {
+                buttonPressed = true;
+            };
+            nextButton.onClick.AddListener(action);
+            yield return new WaitUntil(() => buttonPressed);
+            nextButton.onClick.RemoveListener(action);
+        }
+        
+        yield return ActivateChoices(messages);
+    }
+
+    public IEnumerator Initiate(DialogueTree messages, Action onComplete) {
         SetActive(true);
-        StartCoroutine(EngageDialogue());
-    } 
+        yield return EngageDialogue(messages);
+        SetActive(false);
+        onComplete();
+    }
 
     private void SetActive(bool active) {
-        text.enabled = active;
-        nextButton.enabled = active;
-        background.enabled = active;
+        this.gameObject.SetActive(active);
     }
+
 }

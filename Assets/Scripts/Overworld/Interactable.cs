@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour {
+
     public enum InteractionDirection { Up=4, Down=1, Left=3, Right=2, None=0 }
 
     [SerializeField]
     private Texture2D mouseOverTexture;
     [SerializeField]
-    private string[] messages;
+    private DialogueTree messages;
     private Dialogue dialogue;
 
     public static int LAYER_MASK {
@@ -34,7 +35,7 @@ public class Interactable : MonoBehaviour {
         onComplete += () =>  {
             source.GetComponent<Animator>().SetInteger("InteractingDirection", 0);
         };
-        dialogue.Initiate(messages, onComplete);
+        StartCoroutine(dialogue.Initiate(messages, onComplete));
     }
 
     // makes the source and dest sprites face eachother
