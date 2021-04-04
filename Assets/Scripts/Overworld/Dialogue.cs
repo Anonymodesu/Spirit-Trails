@@ -54,28 +54,32 @@ public class Dialogue : MonoBehaviour {
 
     // Displays the choices at the end of the DialogueTree
     private IEnumerator ActivateChoices(DialogueTree messages) {
-        bool buttonPressed = false;
 
         //Delete previous children from the list of choices i.e. any previous choice buttons
         foreach (Transform choiceButton in choicesList.transform) {
             Destroy(choiceButton.gameObject);
         }
 
-        //Instantiate new choice buttons
         DialogueChoice choices = messages.Choices;
         if (choices.Choices.Count > 0) {
+            DialogueTree nextTree = null;
+
+            //Instantiate new choice buttons
             if (choices.Type == DialogueChoice.ChoiceType.User) {
+
                 foreach (DialogueChoice.Choice choice in choices.Choices) {
                     Button button = Instantiate(choiceButton, choicesList.transform);
                     button.GetComponentInChildren<Text>().text = choice.DisplayText;
-                    button.onClick.AddListener(() => { buttonPressed = true; });
+                    button.onClick.AddListener(() => { nextTree = choice.NextDialogue; });
                 }
-            }
-        }
 
-        choicesList.SetActive(true);
-        yield return new WaitUntil(() => buttonPressed);
-        choicesList.SetActive(false);
+                choicesList.SetActive(true);
+                yield return new WaitUntil(() => nextTree != null);
+                choicesList.SetActive(false);
+            }
+
+            yield return EngageDialogue(nextTree);
+        }
     }
 
 

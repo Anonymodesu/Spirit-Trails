@@ -10,18 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 643d92fe90c189740a0a078ecd1e0f38, type: 3}
-  m_Name: Person
+  m_Name: DummySequence2
   m_EditorClassIdentifier: 
   DialogItems:
-  - DialogueText: Hihi
-  - DialogueText: My name is Andaru
-  - DialogueText: Do you want some money
+  - DialogueText: Baz
+  - DialogueText: Daz
   EventName: 
   Choices:
-    Choices:
-    - DisplayText: Yes
-      NextDialogue: {fileID: 0}
-    - DisplayText: Yes
-      NextDialogue: {fileID: 0}
+    Choices: []
     Type: 0
-    ChoiceName: 
+    ConditionLambda: 
