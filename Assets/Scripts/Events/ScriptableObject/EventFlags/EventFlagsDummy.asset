@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 643d92fe90c189740a0a078ecd1e0f38, type: 3}
-  m_Name: DummySequence2
+  m_Script: {fileID: 11500000, guid: a4af36d3c57ce7649a908bea9ad27dd9, type: 3}
+  m_Name: EventFlagsDummy
   m_EditorClassIdentifier: 
-  DialogItems:
-  - DialogueText: Baz
-  - DialogueText: Dazzzzzzzzzzzzzzzzzzz
-  EventName: 
-  Branch:
-    Choices: []
-    Type: 0
+  flagValues:
+    list:
+    - Key: 0
+      Value: 0
+    - Key: 1
+      Value: 1
+    - Key: 2
+      Value: 0
+    keyCollision: 0

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 643d92fe90c189740a0a078ecd1e0f38, type: 3}
-  m_Name: DummyUserBranch
+  m_Name: DummyGameBranch
   m_EditorClassIdentifier: 
   DialogItems:
-  - DialogueText: This is the dummy user branch
+  - DialogueText: This is the dummy game branch
   - DialogueText: My name is Andaru
   - DialogueText: Do you want some money
   EventName: 
   Branch:
     Choices:
-    - DisplayText: Hi
+    - DisplayText: Path 1
       NextDialogue: {fileID: 11400000, guid: b5d21a47c14d24046abf3a47c9288a36, type: 2}
-    - DisplayText: Bye
+    - DisplayText: Path 2
       NextDialogue: {fileID: 11400000, guid: 0d067ab7f6bbb2841be0c1e5655112e2, type: 2}
-    - DisplayText: Die
+    - DisplayText: Path 3
       NextDialogue: {fileID: 11400000, guid: 0d067ab7f6bbb2841be0c1e5655112e2, type: 2}
-    Type: 0
+    Type: 1

@@ -9,26 +9,27 @@ public class Dialogue : MonoBehaviour {
 
     private const float timePerChar = 0.1f;
     [SerializeField]
-    private Text text;
+    private Text text = default;
     [SerializeField]
-    private Button nextButton;
+    private Button nextButton = default;
     [SerializeField]
-    private Image background;
+    private Image background = default;
     [SerializeField]
-    private GameObject choicesList;
+    private GameObject choicesDisplay = default;
     [SerializeField]
-    private Button choiceButton;
+    private Button choiceButton = default;
+    private Events eventsHandler;
 
     // Start is called before the first frame update
     void Start() {
         SetActive(false);
+        eventsHandler = GameObject.FindGameObjectWithTag("MultiSceneData").GetComponent<Events>();
     }
 
     // Update is called once per frame
     void Update() {
 
     }
-
 
     //print out a message's characters in sequence
     private IEnumerator AutotypeMessage(string message) {
@@ -54,35 +55,37 @@ public class Dialogue : MonoBehaviour {
 
     // Displays the choices at the end of the DialogueTree
     private IEnumerator ActivateChoices(DialogueTree messages) {
+        DialogueChoice branch = messages.Branch;
+        DialogueTree nextTree = default;
 
-        //Delete previous children from the list of choices i.e. any previous choice buttons
-        foreach (Transform choiceButton in choicesList.transform) {
-            Destroy(choiceButton.gameObject);
-        }
+        // Instantiate new choice buttons for the player to select
+        if (branch.Type == DialogueChoice.ChoiceType.User) {
+            var choices = eventsHandler.GetUsersChoices(messages);
 
-        DialogueChoice choices = messages.Choices;
-        if (choices.Choices.Count > 0) {
-            DialogueTree nextTree = null;
-
-            //Instantiate new choice buttons
-            if (choices.Type == DialogueChoice.ChoiceType.User) {
-
-                foreach (DialogueChoice.Choice choice in choices.Choices) {
-                    Button button = Instantiate(choiceButton, choicesList.transform);
-                    button.GetComponentInChildren<Text>().text = choice.DisplayText;
-                    button.onClick.AddListener(() => { nextTree = choice.NextDialogue; });
-                }
-
-                choicesList.SetActive(true);
-                yield return new WaitUntil(() => nextTree != null);
-                choicesList.SetActive(false);
+            foreach (DialogueChoice.Choice choice in choices) {
+                Button button = Instantiate(choiceButton, choicesDisplay.transform);
+                button.GetComponentInChildren<Text>().text = choice.DisplayText;
+                button.onClick.AddListener(() => { nextTree = choice.NextDialogue; });
             }
 
-            yield return EngageDialogue(nextTree);
+            choicesDisplay.SetActive(true);
+            yield return new WaitUntil(() => nextTree != null);
+            choicesDisplay.SetActive(false);
+
+            // Delete previous children from the list of choices i.e. any previous choice buttons
+            foreach (Transform choiceButton in choicesDisplay.transform) {
+                Destroy(choiceButton.gameObject);
+            }
+
+        // Game automatically selects a path
+        } else if(branch.Type == DialogueChoice.ChoiceType.GameEvent) {
+            nextTree = eventsHandler.GetGameEventChoice(messages).NextDialogue;
         }
+
+        yield return EngageDialogue(nextTree);
     }
 
-
+    // Step through all the dialogue in the tree
     private IEnumerator EngageDialogue(DialogueTree messages) {
         foreach (DialogueElement message in messages.DialogItems) {
             yield return AutotypeMessage(message.DialogueText);
@@ -97,7 +100,9 @@ public class Dialogue : MonoBehaviour {
             nextButton.onClick.RemoveListener(action);
         }
         
-        yield return ActivateChoices(messages);
+        if(messages.Branch.IsBranching) {
+            yield return ActivateChoices(messages);
+        }
     }
 
     public IEnumerator Initiate(DialogueTree messages, Action onComplete) {

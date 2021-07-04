@@ -8,9 +8,9 @@ public class Interactable : MonoBehaviour {
     public enum InteractionDirection { Up=4, Down=1, Left=3, Right=2, None=0 }
 
     [SerializeField]
-    private Texture2D mouseOverTexture;
+    private Texture2D mouseOverTexture = default;
     [SerializeField]
-    private DialogueTree messages;
+    private DialogueTree messages = default;
     private Dialogue dialogue;
 
     public static int LAYER_MASK {

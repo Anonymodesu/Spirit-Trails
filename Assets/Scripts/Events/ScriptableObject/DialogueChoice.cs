@@ -16,6 +16,6 @@ public class DialogueChoice {
     }
     public List<Choice> Choices;
     public ChoiceType Type;
-    //The name of the optional event lambda which is used to determine which choices are available to the user
-    public string ConditionLambda;
+
+    public bool IsBranching => Choices.Count > 0;
 }
