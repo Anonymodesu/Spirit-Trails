@@ -55,14 +55,14 @@ public class Dialogue : MonoBehaviour {
 
     // Displays the choices at the end of the DialogueTree
     private IEnumerator ActivateChoices(DialogueTree messages) {
-        DialogueChoice branch = messages.Branch;
+        DialogueBranch branch = messages.Branch;
         DialogueTree nextTree = default;
 
         // Instantiate new choice buttons for the player to select
-        if (branch.Type == DialogueChoice.ChoiceType.User) {
+        if (branch.Type == DialogueBranch.ChoiceType.User) {
             var choices = eventsHandler.GetUsersChoices(messages);
 
-            foreach (DialogueChoice.Choice choice in choices) {
+            foreach (DialogueBranch.Choice choice in choices) {
                 Button button = Instantiate(choiceButton, choicesDisplay.transform);
                 button.GetComponentInChildren<Text>().text = choice.DisplayText;
                 button.onClick.AddListener(() => { nextTree = choice.NextDialogue; });
@@ -78,7 +78,7 @@ public class Dialogue : MonoBehaviour {
             }
 
         // Game automatically selects a path
-        } else if(branch.Type == DialogueChoice.ChoiceType.GameEvent) {
+        } else if(branch.Type == DialogueBranch.ChoiceType.GameEvent) {
             nextTree = eventsHandler.GetGameEventChoice(messages).NextDialogue;
         }
 

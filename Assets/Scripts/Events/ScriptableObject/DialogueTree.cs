@@ -8,5 +8,5 @@ public class DialogueTree : ScriptableObject {
     public List<DialogueElement> DialogItems;
     //The name of the optional event lambda which is called when this DialogueTree is encountered
     public string EventName;
-    public DialogueChoice Branch;
+    public DialogueBranch Branch;
 }

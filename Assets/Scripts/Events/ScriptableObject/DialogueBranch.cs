@@ -1,9 +1,8 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
-using UnityEngine.Events;
 
 [System.Serializable]
-public class DialogueChoice {
+public class DialogueBranch {
     // User means the player gets to choose an option
     // GameEvent means that the game automatically proceeds down the tree using some condition
     public enum ChoiceType { User, GameEvent }
