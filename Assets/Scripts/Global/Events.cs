@@ -12,19 +12,19 @@ public class Events : MonoBehaviour {
     // Below are mappings of dialogueTree names to functions
     // userChoiceSelector takes a DialogueTree as input and returns potential choices for the user
     // gameChoiceSelector takes a DialogueTree as input and returns a single path for the game to follow
-    private Dictionary<string, Func<DialogueTree, List<DialogueBranch.Choice>>> userChoiceSelector = default;
-    private Dictionary<string, Func<DialogueTree, DialogueBranch.Choice>> gameChoiceSelector = default;
+    private Dictionary<string, Func<UserDialogueBranch, List<UserDialogueBranch.Choice>>> userChoiceSelector = default;
+    private Dictionary<string, Func<GameEventDialogueBranch, GameEventDialogueBranch.Choice>> gameChoiceSelector = default;
 
     void Start() {
         if(startingFlagValues != null) {
             this.flagValues = startingFlagValues.flagValues;
         }
-        this.userChoiceSelector = new Dictionary<string, Func<DialogueTree, List<DialogueBranch.Choice>>> {
-            {"DummyUserBranch", (tree) => UserEventSelectorHelper(tree.Branch.Choices, EventFlags.FlagTypes.Dummy2, EventFlags.FlagTypes.Dummy1, EventFlags.FlagTypes.Dummy2) }
+        this.userChoiceSelector = new Dictionary<string, Func<UserDialogueBranch, List<UserDialogueBranch.Choice>>> {
+            {"DummyUserBranch", (branch) => EventSelectorHelper(branch.Choices, EventFlags.FlagTypes.Dummy2, EventFlags.FlagTypes.Dummy1, EventFlags.FlagTypes.Dummy2) }
         };
 
-        this.gameChoiceSelector = new Dictionary<string, Func<DialogueTree, DialogueBranch.Choice>> {
-            {"DummyGameBranch", (tree) => GameEventSelectorHelper(tree.Branch.Choices, EventFlags.FlagTypes.Dummy1, EventFlags.FlagTypes.Dummy2, EventFlags.FlagTypes.Dummy3) }
+        this.gameChoiceSelector = new Dictionary<string, Func<GameEventDialogueBranch, GameEventDialogueBranch.Choice>> {
+            {"DummyGameBranch", (branch) => GameEventSelectorHelper(branch.Choices, EventFlags.FlagTypes.Dummy3, EventFlags.FlagTypes.Dummy4) }
         };
     }
 
@@ -38,8 +38,8 @@ public class Events : MonoBehaviour {
     }
 
     //returns a single choice with a non-zero eventFlag in the given choices array
-    private DialogueBranch.Choice GameEventSelectorHelper(List<DialogueBranch.Choice> choices, params EventFlags.FlagTypes[] eventFlags) {
-        var availableChoices = UserEventSelectorHelper(choices, eventFlags);
+    private GameEventDialogueBranch.Choice GameEventSelectorHelper(List<GameEventDialogueBranch.Choice> choices, params EventFlags.FlagTypes[] eventFlags) {
+        var availableChoices = EventSelectorHelper(choices, eventFlags);
 
         if(availableChoices.Count != 1) {
             Debug.LogError($"Game event produced more than ${availableChoices.Count} choices");
@@ -49,12 +49,12 @@ public class Events : MonoBehaviour {
     }
     
     //returns choices with non-zero eventFlags in the given choices array
-    private List<DialogueBranch.Choice> UserEventSelectorHelper(List<DialogueBranch.Choice> choices, params EventFlags.FlagTypes[] eventFlags) {
+    private List<T> EventSelectorHelper<T>(List<T> choices, params EventFlags.FlagTypes[] eventFlags) {
         if(choices.Count != eventFlags.Length) {
             Debug.LogError($"Non-matching flag and choice sizes: {eventFlags.Length} vs {choices.Count}");
         }
 
-        var availableChoices = new List<DialogueBranch.Choice>();
+        var availableChoices = new List<T>();
         for(int i = 0; i < choices.Count; i++) {
             if(GetFlag(eventFlags[i]) != 0) {
                 availableChoices.Add(choices[i]);
@@ -68,15 +68,15 @@ public class Events : MonoBehaviour {
         flagValues[type] = val;
     }
 
-    public List<DialogueBranch.Choice> GetUsersChoices(DialogueTree dialogue) {
+    public List<UserDialogueBranch.Choice> GetUsersChoices(UserDialogueBranch branch) {
         // return every choice by default
-        var availableChoices = dialogue.Branch.Choices;
+        var availableChoices = branch.Choices;
 
-        if(userChoiceSelector.ContainsKey(dialogue.name)) {
-            availableChoices = userChoiceSelector[dialogue.name].Invoke(dialogue);
+        if(userChoiceSelector.ContainsKey(branch.Name)) {
+            availableChoices = userChoiceSelector[branch.Name].Invoke(branch);
 
             if(availableChoices.Count == 0) {
-                Debug.LogError($"{dialogue.name} is returning 0 options");
+                Debug.LogError($"{branch.Name} is returning 0 options");
             }
 
         }
@@ -84,14 +84,14 @@ public class Events : MonoBehaviour {
         return availableChoices;
     }
 
-    public DialogueBranch.Choice GetGameEventChoice(DialogueTree dialogue) {
+    public GameEventDialogueBranch.Choice GetGameEventChoice(GameEventDialogueBranch branch) {
         
-        if(gameChoiceSelector.ContainsKey(dialogue.name)) {
-            return gameChoiceSelector[dialogue.name].Invoke(dialogue);
+        if(gameChoiceSelector.ContainsKey(branch.Name)) {
+            return gameChoiceSelector[branch.Name].Invoke(branch);
         
         // return first choice by default
         } else {
-            return dialogue.Branch.Choices.First();
+            return branch.Choices.First();
         }
     }
 }

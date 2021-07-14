@@ -53,37 +53,32 @@ public class Dialogue : MonoBehaviour {
         nextButton.onClick.RemoveListener(action);
     }
 
-    // Displays the choices at the end of the DialogueTree
-    private IEnumerator ActivateChoices(DialogueTree messages) {
-        DialogueBranch branch = messages.Branch;
-        DialogueTree nextTree = default;
-
-        // Instantiate new choice buttons for the player to select
-        if (branch.Type == DialogueBranch.ChoiceType.User) {
-            var choices = eventsHandler.GetUsersChoices(messages);
-
-            foreach (DialogueBranch.Choice choice in choices) {
-                Button button = Instantiate(choiceButton, choicesDisplay.transform);
-                button.GetComponentInChildren<Text>().text = choice.DisplayText;
-                button.onClick.AddListener(() => { nextTree = choice.NextDialogue; });
-            }
-
-            choicesDisplay.SetActive(true);
-            yield return new WaitUntil(() => nextTree != null);
-            choicesDisplay.SetActive(false);
-
-            // Delete previous children from the list of choices i.e. any previous choice buttons
-            foreach (Transform choiceButton in choicesDisplay.transform) {
-                Destroy(choiceButton.gameObject);
-            }
-
-        // Game automatically selects a path
-        } else if(branch.Type == DialogueBranch.ChoiceType.GameEvent) {
-            nextTree = eventsHandler.GetGameEventChoice(messages).NextDialogue;
-        }
-
+    public IEnumerator ActivateChoices(GameEventDialogueBranch gameEventBranch) {
+        DialogueTree nextTree = eventsHandler.GetGameEventChoice(gameEventBranch).NextDialogue;
         yield return EngageDialogue(nextTree);
     }
+
+    public IEnumerator ActivateChoices(UserDialogueBranch userBranch) {
+        DialogueTree nextTree = default;
+        var choices = eventsHandler.GetUsersChoices(userBranch);
+
+        foreach (UserDialogueBranch.Choice choice in choices) {
+            Button button = Instantiate(choiceButton, choicesDisplay.transform);
+            button.GetComponentInChildren<Text>().text = choice.DisplayText;
+            button.onClick.AddListener(() => { nextTree = choice.NextDialogue; });
+        }
+
+        choicesDisplay.SetActive(true);
+        yield return new WaitUntil(() => nextTree != null);
+        choicesDisplay.SetActive(false);
+
+        // Delete previous children from the list of choices i.e. any previous choice buttons
+        foreach (Transform choiceButton in choicesDisplay.transform) {
+            Destroy(choiceButton.gameObject);
+        }
+        yield return EngageDialogue(nextTree);
+    }
+        
 
     // Step through all the dialogue in the tree
     private IEnumerator EngageDialogue(DialogueTree messages) {
@@ -100,8 +95,9 @@ public class Dialogue : MonoBehaviour {
             nextButton.onClick.RemoveListener(action);
         }
         
-        if(messages.Branch.IsBranching) {
-            yield return ActivateChoices(messages);
+        if(messages.Branch.IsBranching()) {
+            // This will eventually call one of the implementations of ActivateChoices()
+            yield return messages.Branch.Accept(this);
         }
     }
 

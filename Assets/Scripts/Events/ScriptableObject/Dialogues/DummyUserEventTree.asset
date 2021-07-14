@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 643d92fe90c189740a0a078ecd1e0f38, type: 3}
-  m_Name: DummySequence2
+  m_Script: {fileID: 11500000, guid: 9b0f2c8bfbca89146973f9d81526fa28, type: 3}
+  m_Name: UserDialogueTree
   m_EditorClassIdentifier: 
-  DialogItems:
-  - DialogueText: Baz
-  - DialogueText: Dazzzzzzzzzzzzzzzzzzz
+  DialogItems: []
   EventName: 
-  Branch:
+  branch:
+    name: 
     Choices: []
-    Type: 0
