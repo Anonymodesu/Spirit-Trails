@@ -81,8 +81,10 @@ public class Dialogue : MonoBehaviour {
         
 
     // Step through all the dialogue in the tree
-    private IEnumerator EngageDialogue(DialogueTree messages) {
-        foreach (DialogueElement message in messages.DialogItems) {
+    private IEnumerator EngageDialogue(DialogueTree tree) {
+        eventsHandler.GetEvent(tree).Invoke();
+
+        foreach (DialogueElement message in tree.DialogItems) {
             yield return AutotypeMessage(message.DialogueText);
 
             // Wait for the button to be pressed before advancing
@@ -95,9 +97,9 @@ public class Dialogue : MonoBehaviour {
             nextButton.onClick.RemoveListener(action);
         }
         
-        if(messages.Branch.IsBranching()) {
+        if(tree.Branch.IsBranching()) {
             // This will eventually call one of the implementations of ActivateChoices()
-            yield return messages.Branch.Accept(this);
+            yield return tree.Branch.Accept(this);
         }
     }
 

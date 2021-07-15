@@ -12,8 +12,11 @@ public class Events : MonoBehaviour {
     // Below are mappings of dialogueTree names to functions
     // userChoiceSelector takes a DialogueTree as input and returns potential choices for the user
     // gameChoiceSelector takes a DialogueTree as input and returns a single path for the game to follow
-    private Dictionary<string, Func<UserDialogueBranch, List<UserDialogueBranch.Choice>>> userChoiceSelector = default;
-    private Dictionary<string, Func<GameEventDialogueBranch, GameEventDialogueBranch.Choice>> gameChoiceSelector = default;
+    private Dictionary<string, Func<UserDialogueBranch, List<UserDialogueBranch.Choice>>> userChoiceSelector;
+    private Dictionary<string, Func<GameEventDialogueBranch, GameEventDialogueBranch.Choice>> gameChoiceSelector;
+
+    // This maps the EventName in the DialogueTree to an event
+    private Dictionary<string, Action> eventSelector;
 
     void Start() {
         if(startingFlagValues != null) {
@@ -25,6 +28,10 @@ public class Events : MonoBehaviour {
 
         this.gameChoiceSelector = new Dictionary<string, Func<GameEventDialogueBranch, GameEventDialogueBranch.Choice>> {
             {"DummyGameBranch", (branch) => GameEventSelectorHelper(branch.Choices, EventFlags.FlagTypes.Dummy3, EventFlags.FlagTypes.Dummy4) }
+        };
+        this.eventSelector = new Dictionary<string, Action> {
+            {"", () => {} },
+            {"DummyEvent", () => Debug.Log("Dummy event has happened") }
         };
     }
 
@@ -94,4 +101,7 @@ public class Events : MonoBehaviour {
             return branch.Choices.First();
         }
     }
+
+    public Action GetEvent(DialogueTree tree) =>
+        eventSelector[tree.EventName];
 }
