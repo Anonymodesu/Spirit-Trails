@@ -10,10 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b0f2c8bfbca89146973f9d81526fa28, type: 3}
-  m_Name: UserDialogueTree
+  m_Name: DummyUserEventTree
   m_EditorClassIdentifier: 
-  DialogItems: []
+  DialogItems:
+  - DialogueText: Dummy User Branch
+  - DialogueText: hihi
   EventName: 
   branch:
-    name: 
-    Choices: []
+    name: DummyUserBranch
+    Choices:
+    - DisplayText: Option1
+      NextDialogue: {fileID: 11400000, guid: b24c035fe0b13cd47b2eb330f821bcb0, type: 2}
+    - DisplayText: Option2
+      NextDialogue: {fileID: 11400000, guid: e810494bfcf23d94abbfc40304e17b92, type: 2}
+    - DisplayText: Option3
+      NextDialogue: {fileID: 11400000, guid: e810494bfcf23d94abbfc40304e17b92, type: 2}

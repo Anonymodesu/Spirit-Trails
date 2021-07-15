@@ -546,7 +546,7 @@ PrefabInstance:
         type: 3}
       propertyPath: messages
       value: 
-      objectReference: {fileID: 11400000, guid: 44287009ad59ed94a87e60f3454ea9d6,
+      objectReference: {fileID: 11400000, guid: 396e3e5ac16290c488ea4224f0a6a2bf,
         type: 2}
     - target: {fileID: 8368406281244804579, guid: 2af5fbd58a95da848882122f977c2f62,
         type: 3}
@@ -952,7 +952,7 @@ PrefabInstance:
         type: 3}
       propertyPath: messages
       value: 
-      objectReference: {fileID: 11400000, guid: b7f4c1ab81c2c634c84715ac2d7143c3,
+      objectReference: {fileID: 11400000, guid: d6e48639f6f0b6049bdecf408106cfec,
         type: 2}
     - target: {fileID: 8368406281244804579, guid: 2af5fbd58a95da848882122f977c2f62,
         type: 3}

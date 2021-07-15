@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a13d3219403d594ab2964405d544f20, type: 3}
   m_Name: DummyDialogue2
   m_EditorClassIdentifier: 
-  DialogItems: []
+  DialogItems:
+  - DialogueText: Dummy Dialogue 2
+  - DialogueText: Foo bar
   EventName: 
   branch:
     name: 

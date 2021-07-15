@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a13d3219403d594ab2964405d544f20, type: 3}
-  m_Name: GameEventDialogueTree
+  m_Name: DummyGameEventTree
   m_EditorClassIdentifier: 
-  DialogItems: []
+  DialogItems:
+  - DialogueText: Dummy Game Event Tree
   EventName: 
   branch:
-    name: 
-    Choices: []
+    name: DummyGameBranch
+    Choices:
+    - NextDialogue: {fileID: 11400000, guid: b24c035fe0b13cd47b2eb330f821bcb0, type: 2}
+    - NextDialogue: {fileID: 11400000, guid: e810494bfcf23d94abbfc40304e17b92, type: 2}
