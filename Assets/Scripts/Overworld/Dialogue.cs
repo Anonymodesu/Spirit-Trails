@@ -18,12 +18,12 @@ public class Dialogue : MonoBehaviour {
     private GameObject choicesDisplay = default;
     [SerializeField]
     private Button choiceButton = default;
-    private Events eventsHandler;
+    private EventFlagsContainer eventFlags;
 
     // Start is called before the first frame update
     void Start() {
         SetActive(false);
-        eventsHandler = GameObject.FindGameObjectWithTag("MultiSceneData").GetComponent<Events>();
+        eventFlags = GameObject.FindGameObjectWithTag("MultiSceneData").GetComponent<EventFlagsContainer>();
     }
 
     // Update is called once per frame
@@ -54,13 +54,13 @@ public class Dialogue : MonoBehaviour {
     }
 
     public IEnumerator ActivateChoices(GameEventDialogueBranch gameEventBranch) {
-        DialogueTree nextTree = eventsHandler.GetGameEventChoice(gameEventBranch).NextDialogue;
+        DialogueTree nextTree = eventFlags.GetGameEventChoice(gameEventBranch).NextDialogue;
         yield return EngageDialogue(nextTree);
     }
 
     public IEnumerator ActivateChoices(UserDialogueBranch userBranch) {
         DialogueTree nextTree = default;
-        var choices = eventsHandler.GetUsersChoices(userBranch);
+        var choices = eventFlags.GetUsersChoices(userBranch);
 
         foreach (UserDialogueBranch.Choice choice in choices) {
             Button button = Instantiate(choiceButton, choicesDisplay.transform);
@@ -82,7 +82,7 @@ public class Dialogue : MonoBehaviour {
 
     // Step through all the dialogue in the tree
     private IEnumerator EngageDialogue(DialogueTree tree) {
-        eventsHandler.GetEvent(tree).Invoke();
+        tree.Event.Invoke();
 
         foreach (DialogueElement message in tree.DialogItems) {
             yield return AutotypeMessage(message.DialogueText);

@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor;
+using UnityEditor.Events;
 
 public abstract class DialogueTree : ScriptableObject {
     public List<DialogueElement> DialogItems;
-    //The name of the optional event lambda which is called when this DialogueTree is encountered
-    public string EventName;
     public abstract IDialogueBranch Branch { get; }
+    //An optional event to be triggered upon encountering this dialogue tree
+    public UnityEvent Event;
+    void Reset() {
+        Event = new UnityEvent();
+        string[] assetGUIDs = AssetDatabase.FindAssets("t:Events");
+        string path = AssetDatabase.GUIDToAssetPath(assetGUIDs[0]);
+        Events events =  AssetDatabase.LoadAssetAtPath<Events>(path);
+
+        UnityEventTools.AddPersistentListener(Event, events.Empty);
+    }
 }

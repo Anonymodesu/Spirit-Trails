@@ -22,6 +22,6 @@ MonoBehaviour:
     - DisplayText: Option1
       NextDialogue: {fileID: 11400000, guid: b24c035fe0b13cd47b2eb330f821bcb0, type: 2}
     - DisplayText: Option2
-      NextDialogue: {fileID: 11400000, guid: e810494bfcf23d94abbfc40304e17b92, type: 2}
+      NextDialogue: {fileID: 11400000, guid: d2fc7664bc9154542b1371fac0c52386, type: 2}
     - DisplayText: Option3
       NextDialogue: {fileID: 11400000, guid: e810494bfcf23d94abbfc40304e17b92, type: 2}

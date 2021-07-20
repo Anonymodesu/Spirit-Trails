@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a13d3219403d594ab2964405d544f20, type: 3}
   m_Name: DummyEventDialogue
   m_EditorClassIdentifier: 
-  DialogItems: []
-  EventName: 
+  DialogItems:
+  - DialogueText: Dummy Event Dialogue
+  EventName: DummyEvent
   branch:
     name: 
     Choices: []
