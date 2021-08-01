@@ -10,4 +10,11 @@ public class UserDialogueTree : DialogueTree {
     [SerializeField]
     private UserDialogueBranch branch;
     public override IDialogueBranch Branch => branch;
+
+    public override void Reset() {
+        base.Reset();
+
+        branch = new UserDialogueBranch();
+        branch.Reset();
+    }
 }

@@ -54,13 +54,13 @@ public class Dialogue : MonoBehaviour {
     }
 
     public IEnumerator ActivateChoices(GameEventDialogueBranch gameEventBranch) {
-        DialogueTree nextTree = eventFlags.GetGameEventChoice(gameEventBranch).NextDialogue;
+        DialogueTree nextTree = gameEventBranch.GetChoice(eventFlags).NextDialogue;
         yield return EngageDialogue(nextTree);
     }
 
     public IEnumerator ActivateChoices(UserDialogueBranch userBranch) {
         DialogueTree nextTree = default;
-        var choices = eventFlags.GetUsersChoices(userBranch);
+        var choices = userBranch.GetChoices(eventFlags);
 
         foreach (UserDialogueBranch.Choice choice in choices) {
             Button button = Instantiate(choiceButton, choicesDisplay.transform);

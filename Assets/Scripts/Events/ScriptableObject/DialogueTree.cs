@@ -10,12 +10,13 @@ public abstract class DialogueTree : ScriptableObject {
     public abstract IDialogueBranch Branch { get; }
     //An optional event to be triggered upon encountering this dialogue tree
     public UnityEvent Event;
-    void Reset() {
+
+    // Set certain ScriptableObjects to be default values for UnityEvent instance variables
+    public virtual void Reset() {
         Event = new UnityEvent();
         string[] assetGUIDs = AssetDatabase.FindAssets("t:Events");
         string path = AssetDatabase.GUIDToAssetPath(assetGUIDs[0]);
         Events events =  AssetDatabase.LoadAssetAtPath<Events>(path);
-
         UnityEventTools.AddPersistentListener(Event, events.Empty);
     }
 }

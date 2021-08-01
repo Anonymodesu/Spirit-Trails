@@ -10,4 +10,11 @@ public class GameEventDialogueTree : DialogueTree {
     [SerializeField]
     private GameEventDialogueBranch branch;
     public override IDialogueBranch Branch => branch;
+
+    public override void Reset() {
+        base.Reset();
+
+        branch = new GameEventDialogueBranch();
+        branch.Reset();
+    }
 }

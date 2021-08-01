@@ -17,10 +17,21 @@ public class UserDialogueBranch : IDialogueBranch {
 
     [SerializeField]
     private string name = default;
-
     public string Name { get => name; }
+    
+
+    [SerializeField]
+    private UnityFunc choiceSelector = default;
+    public List<Choice> GetChoices(EventFlagsContainer eventFlags)
+        => choiceSelector.GetChoices(eventFlags, Choices);
 
     public bool IsBranching() => Choices.Count > 0;
 
     public List<Choice> Choices;
+    public void Reset() => choiceSelector.Reset();
+
+    public UserDialogueBranch() {
+        Choices = new List<Choice>();
+        choiceSelector = new UnityFunc();
+    }
 }

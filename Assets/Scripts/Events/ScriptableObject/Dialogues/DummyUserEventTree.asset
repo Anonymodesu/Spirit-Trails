@@ -15,9 +15,27 @@ MonoBehaviour:
   DialogItems:
   - DialogueText: Dummy User Branch
   - DialogueText: hihi
-  EventName: 
+  Event:
+    m_PersistentCalls:
+      m_Calls: []
   branch:
     name: DummyUserBranch
+    choiceSelector:
+      choiceSelectorInvoker:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 11400000, guid: e0971762757a0884fb4ab99173b35e87, type: 2}
+            m_TargetAssemblyTypeName: ChoiceSelectors, Assembly-CSharp
+            m_MethodName: DummySelector
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
     Choices:
     - DisplayText: Option1
       NextDialogue: {fileID: 11400000, guid: b24c035fe0b13cd47b2eb330f821bcb0, type: 2}
