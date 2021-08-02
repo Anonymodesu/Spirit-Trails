@@ -16,11 +16,6 @@ public class GameEventDialogueBranch : IDialogueBranch {
         dialogue.ActivateChoices(this);
 
     [SerializeField]
-    private string name = default;
-
-    public string Name { get => name; }
-
-    [SerializeField]
     private UnityFunc choiceSelector;
     public Choice GetChoice(EventFlagsContainer eventFlags) {
         List<Choice> choices = choiceSelector.GetChoices(eventFlags, Choices);

@@ -14,12 +14,7 @@ public class UserDialogueBranch : IDialogueBranch {
 
     public IEnumerator Accept(Dialogue dialogue) =>
         dialogue.ActivateChoices(this);
-
-    [SerializeField]
-    private string name = default;
-    public string Name { get => name; }
     
-
     [SerializeField]
     private UnityFunc choiceSelector = default;
     public List<Choice> GetChoices(EventFlagsContainer eventFlags)
