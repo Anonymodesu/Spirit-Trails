@@ -20,7 +20,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 03a99af2401405645b0c87a9d14f8a16, type: 2}
         m_TargetAssemblyTypeName: Events, Assembly-CSharp
-        m_MethodName: Dummy
+        m_MethodName: Empty
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31,5 +31,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   branch:
-    name: 
+    choiceSelector:
+      choiceSelectorInvoker:
+        m_PersistentCalls:
+          m_Calls: []
     Choices: []

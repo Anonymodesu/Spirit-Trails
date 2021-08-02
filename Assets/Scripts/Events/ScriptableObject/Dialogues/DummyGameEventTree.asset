@@ -18,14 +18,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   branch:
-    name: DummyGameBranch
     choiceSelector:
       choiceSelectorInvoker:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 11400000, guid: e0971762757a0884fb4ab99173b35e87, type: 2}
             m_TargetAssemblyTypeName: ChoiceSelectors, Assembly-CSharp
-            m_MethodName: DummySelector
+            m_MethodName: DummyGameEventSelector
             m_Mode: 0
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
