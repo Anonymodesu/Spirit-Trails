@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // adapted from https://github.com/RetryEntry/UnityAnimatorChangeSprite
 public class TextureSwapper : MonoBehaviour {
