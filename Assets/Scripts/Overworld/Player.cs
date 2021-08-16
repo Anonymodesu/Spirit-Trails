@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
+namespace Overworld {
 
 public class Player : MonoBehaviour
 {
@@ -84,4 +85,6 @@ public class Player : MonoBehaviour
         }
     }
     
+}
+
 }

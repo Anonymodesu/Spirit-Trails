@@ -1,8 +1,11 @@
-
+using Global;
+using Overworld;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+
+namespace Events.ScriptableObject {
 
 [System.Serializable]
 public class GameEventDialogueBranch : IDialogueBranch {
@@ -35,4 +38,6 @@ public class GameEventDialogueBranch : IDialogueBranch {
         Choices = new List<Choice>();
         choiceSelector = new UnityFunc();
     }
+}
+
 }

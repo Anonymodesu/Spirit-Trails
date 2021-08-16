@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿namespace Events.ScriptableObject {
 
 [System.Serializable]
 public class DialogueElement {
@@ -13,4 +11,6 @@ public class DialogueElement {
     // public GUIStyle DialogueTextStyle;
     // public float TextPlayBackSpeed;
     // public AudioClip PlayBackSoundFile;
+}
+
 }

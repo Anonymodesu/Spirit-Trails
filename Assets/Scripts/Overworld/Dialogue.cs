@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Events.ScriptableObject;
+using Global;
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+
+namespace Overworld {
 
 public class Dialogue : MonoBehaviour {
 
@@ -113,5 +116,7 @@ public class Dialogue : MonoBehaviour {
     private void SetActive(bool active) {
         this.gameObject.SetActive(active);
     }
+
+}
 
 }

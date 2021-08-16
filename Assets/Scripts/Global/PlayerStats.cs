@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+namespace Global {
 
 public class PlayerStats : MonoBehaviour {
 
@@ -22,4 +22,6 @@ public class PlayerStats : MonoBehaviour {
     void Update() {
 
     }
+}
+
 }

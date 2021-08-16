@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
+
+namespace Events.ScriptableObject {
 
 // The user selects how to proceed down the tree
 [CreateAssetMenu(fileName = "UserDialogueTree", menuName = "ScriptableObjects/UserDialogueTree", order = 3)]
@@ -17,4 +16,6 @@ public class UserDialogueTree : DialogueTree {
         branch = new UserDialogueBranch();
         branch.Reset();
     }
+}
+
 }

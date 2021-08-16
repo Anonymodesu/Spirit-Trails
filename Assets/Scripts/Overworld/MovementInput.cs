@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace Overworld {
 
 public class MovementInput : MonoBehaviour {
     //numbers correspond to animation transition triggers
@@ -64,4 +65,6 @@ public class MovementInput : MonoBehaviour {
 
         return new Vector3(horizontalDirection, verticalDirection, 0).normalized;
     }
+}
+
 }

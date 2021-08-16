@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Events.ScriptableObject;
+using System;
 using UnityEngine;
+
+namespace Overworld {
 
 public class Interactable : MonoBehaviour {
 
@@ -79,4 +80,6 @@ public class Interactable : MonoBehaviour {
         sourceAnimator?.SetInteger("InteractingDirection", (int) sourceDir);
         destAnimator?.SetInteger("InteractingDirection", (int) destDir);
     }
+}
+
 }

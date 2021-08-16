@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+namespace Helpers {
+
 /// <summary>
 /// Generic Serializable Dictionary for Unity 2020.1.
 /// Simply declare your key/value types and you're good to go - zero boilerplate.
@@ -154,4 +156,6 @@ public class GenericDictionary<TKey, TValue> : IDictionary<TKey, TValue>, ISeria
     // IEnumerable
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => dict.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => dict.GetEnumerator();
+}
+
 }

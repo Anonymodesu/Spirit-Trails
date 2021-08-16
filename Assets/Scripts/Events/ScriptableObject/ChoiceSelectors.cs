@@ -1,10 +1,13 @@
+using Global;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace Events.ScriptableObject {
 
 using Flag = EventFlags.FlagTypes;
 
 [CreateAssetMenu(fileName = "ChoiceSelectors", menuName = "ScriptableObjects/ChoiceSelectors", order = 5)]
-public class ChoiceSelectors: ScriptableObject {
+public class ChoiceSelectors: UnityEngine.ScriptableObject {
 
     public void DummySelector(EventFlagsContainer container, ISet<int> choices) {
         choices.Clear();
@@ -26,4 +29,6 @@ public class ChoiceSelectors: ScriptableObject {
             }
         }
     }
+}
+
 }

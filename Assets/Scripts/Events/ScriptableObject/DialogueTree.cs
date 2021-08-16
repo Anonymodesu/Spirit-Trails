@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEditor;
 using UnityEditor.Events;
 
-public abstract class DialogueTree : ScriptableObject {
+namespace Events.ScriptableObject {
+
+public abstract class DialogueTree : UnityEngine.ScriptableObject {
     public List<DialogueElement> DialogItems;
     public abstract IDialogueBranch Branch { get; }
     //An optional event to be triggered upon encountering this dialogue tree
@@ -19,4 +19,6 @@ public abstract class DialogueTree : ScriptableObject {
         Events events =  AssetDatabase.LoadAssetAtPath<Events>(path);
         UnityEventTools.AddPersistentListener(Event, events.Empty);
     }
+}
+
 }

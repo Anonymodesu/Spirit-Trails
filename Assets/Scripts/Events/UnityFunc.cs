@@ -1,9 +1,12 @@
-using System.Collections;
+using Events.ScriptableObject;
+using Global;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
 using UnityEditor.Events;
+
+namespace Events {
 
 [System.Serializable]
 public class UnityFunc {
@@ -44,4 +47,6 @@ public class UnityFunc {
 
         UnityEventTools.AddPersistentListener(choiceSelectorInvoker, choiceSelectors.DummySelector);
     }
+}
+
 }

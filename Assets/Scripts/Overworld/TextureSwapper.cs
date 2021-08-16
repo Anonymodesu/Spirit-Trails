@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+namespace Overworld {
+
 // adapted from https://github.com/RetryEntry/UnityAnimatorChangeSprite
 public class TextureSwapper : MonoBehaviour {
 
@@ -56,4 +58,6 @@ public class TextureSwapper : MonoBehaviour {
             swappedTexture = null;
         }
     }
+}
+
 }

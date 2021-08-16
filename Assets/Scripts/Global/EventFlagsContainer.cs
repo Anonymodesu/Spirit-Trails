@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using Events.ScriptableObject;
+using Helpers;
 using UnityEngine;
+
+namespace Global {
 
 public class EventFlagsContainer : MonoBehaviour {
     [SerializeField]
@@ -27,5 +28,7 @@ public class EventFlagsContainer : MonoBehaviour {
     public void SetFlag(EventFlags.FlagTypes type, int val) {
         flagValues[type] = val;
     }
+
+}
 
 }

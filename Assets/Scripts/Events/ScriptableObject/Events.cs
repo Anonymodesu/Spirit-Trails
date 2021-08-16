@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace Events.ScriptableObject {
+
 [CreateAssetMenu(fileName = "Events", menuName = "ScriptableObjects/Events", order = 4)]
-public class Events: ScriptableObject {
+public class Events: UnityEngine.ScriptableObject {
 
     public void Empty() {}
 
@@ -11,4 +13,6 @@ public class Events: ScriptableObject {
 
     public void StartBattle() =>
         SceneManager.LoadSceneAsync("Battle");
+}
+
 }
