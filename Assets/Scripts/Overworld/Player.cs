@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Global;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Overworld {
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
             CursorHelper.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, float.MaxValue, Interactable.LAYER_MASK);
+        RaycastHit2D hit = CursorHelper.RaycastCursor(Interactable.LAYER_MASK);
         if(hit.collider != null && nearbyInteractables.Contains(hit.collider.GetComponent<Interactable>())) { 
             Interactable interactable = hit.collider.GetComponent<Interactable>();
 

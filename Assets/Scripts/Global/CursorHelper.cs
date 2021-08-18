@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Overworld {
+namespace Global {
 
 public class CursorHelper : Cursor
 {
@@ -11,7 +11,10 @@ public class CursorHelper : Cursor
             Cursor.SetCursor(texture, hotspot, cursorMode);
             currentCursor = texture;
         }
-    }   
+    }
+
+    public static RaycastHit2D RaycastCursor(int layerMask) =>
+        Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, float.MaxValue, layerMask);
 }
 
 }
