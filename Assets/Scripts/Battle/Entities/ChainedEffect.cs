@@ -1,4 +1,3 @@
-using Battle.Entities.Stats;
 namespace Battle.Entities {
     class ChainedEffect: IEffect {
 

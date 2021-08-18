@@ -1,5 +1,4 @@
 using Battle.Entities;
-using Battle.Skills.Conditions;
 
 namespace Battle.Skills
 {
