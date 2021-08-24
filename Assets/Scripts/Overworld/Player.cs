@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
 
             if(nearbyInteractables.Contains(interactable)) {
 
-                if(Input.GetButtonDown("Interact")) {
+                if(InputHelper.Interact()) {
                     enabled = false;
                     resetCursor();
                     animator.SetInteger("WalkingDirection", (int) MovementInput.WalkingDirection.None);
