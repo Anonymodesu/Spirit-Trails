@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using Battle.Entities;
+using Battle.Entities.Stats;
 
 namespace Global {
 
 public class PlayerStats : MonoBehaviour {
+
+    public Entity entity;
 
     void Awake() {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("MultiSceneData");
@@ -11,11 +15,14 @@ public class PlayerStats : MonoBehaviour {
         } else {
             DontDestroyOnLoad(this.gameObject);
         }
+
+        entity = new Entity("Anonymo", new EntityStats(
+            100, 80, 80, 100, 80, 10, 15, 15, 10
+        ));
     }
 
-    // Start is called before the first frame update
     void Start() {
-
+        
     }
 
     // Update is called once per frame
