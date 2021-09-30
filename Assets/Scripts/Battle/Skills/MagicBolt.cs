@@ -11,13 +11,13 @@ namespace Battle.Skills
 
         public override string Name { get => "Magic Bolt"; }
 
-        public MagicBolt(Entity source, Entity target)
-            : base(source, target, basePower, new ManaCondition(manaCost)) {
+        public MagicBolt()
+            : base(basePower, new ManaCondition(manaCost)) {
         }
 
 
-        public override IEffect Build() =>
-            new ManaCost(Source, manaCost)
-            .Next(new MagicDamage(Source, Target, BasePower));
+        public override IEffect Build(Entity source, Entity target) =>
+            new ManaCost(source, manaCost)
+            .Next(new MagicDamage(source, target, BasePower));
     }
 }

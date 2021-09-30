@@ -10,14 +10,14 @@ namespace Battle.Skills
 
         public override string Name { get => "Triple Strike"; }
 
-        public TripleStrike(Entity source, Entity target)
-            : base(source, target, basePower, new StaminaCondition(staminaConsumption)) {
+        public TripleStrike()
+            : base(basePower, new StaminaCondition(staminaConsumption)) {
         }
 
-        public override IEffect Build() =>
-            new StaminaCost(Source, staminaConsumption)
-            .Next(new PhysicalDamage(Source, Target, BasePower))
-            .Next(new PhysicalDamage(Source, Target, BasePower))
-            .Next(new PhysicalDamage(Source, Target, BasePower));
+        public override IEffect Build(Entity source, Entity target) =>
+            new StaminaCost(source, staminaConsumption)
+            .Next(new PhysicalDamage(source, target, BasePower))
+            .Next(new PhysicalDamage(source, target, BasePower))
+            .Next(new PhysicalDamage(source, target, BasePower));
     }
 }

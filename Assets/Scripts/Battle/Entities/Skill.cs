@@ -10,8 +10,6 @@ namespace Battle.Entities {
             this.condition = condition;
         }
 
-        public abstract IEffect Build();
-
         public bool IsUseable(Entity source) => condition.IsSatisfied(source);
     }
 }

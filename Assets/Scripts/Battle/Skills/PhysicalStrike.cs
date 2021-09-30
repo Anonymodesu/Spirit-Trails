@@ -11,13 +11,13 @@ namespace Battle.Skills
 
         public override string Name { get => "Physical Strike"; }
                 
-        public PhysicalStrike(Entity source, Entity target)
-            : base(source, target, basePower, new StaminaCondition(staminaConsumption)) {
+        public PhysicalStrike()
+            : base(basePower, new StaminaCondition(staminaConsumption)) {
         }
 
-        public override IEffect Build() =>
-            new StaminaCost(Source, staminaConsumption)
-            .Next(new PhysicalDamage(Source, Target, BasePower));
+        public override IEffect Build(Entity source, Entity target) =>
+            new StaminaCost(source, staminaConsumption)
+            .Next(new PhysicalDamage(source, target, BasePower));
 
     }
 }
