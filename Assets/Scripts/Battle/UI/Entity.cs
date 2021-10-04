@@ -15,33 +15,44 @@ public class Entity : MonoBehaviour {
     [SerializeField]
     private Text manaDisplay = default;
     private GameObject battleUI;
+    private SkillSelect skillSelect;
     private Battle.Entities.Entity entity;
 
 
     // Start is called before the first frame update
     void Start() {
         battleUI = GameObject.FindGameObjectWithTag("BattleUI");
+        skillSelect = battleUI.transform.Find("SkillSelect").GetComponent<SkillSelect>();
         entity = GameObject.FindGameObjectWithTag("MultiSceneData").GetComponent<PlayerStats>().entity;
     }
 
     // Update is called once per frame
     void Update() {
-        // Debug.Log(LayerMask.LayerToName(gameObject.layer));
         RaycastHit2D hit = CursorHelper.RaycastCursor(LayerMask.GetMask("Interactables"));
         bool hitCollider = hit.collider != null;
-
-        if(hitCollider && InputHelper.Interact()) {
-            battleUI.SetActive(!battleUI.activeSelf);
-        }
-        attributesDisplay.SetActive(hitCollider);
-        
-        SetAttributes();
+        ToggleSkillDisplay(hitCollider);
+        ToggleAttributeDisplay(hitCollider);
     }
 
-    private void SetAttributes() {
-        EntityStats stats= entity.EntityStats;
-        healthDisplay.text = $"{stats.Stamina}/{stats.CurrentHealth}/{stats.MaxHealth}";
-        manaDisplay.text = $"{stats.CurrentMana}/{stats.MaxMana}";
+    private void ToggleAttributeDisplay(bool hitCollider) {
+        attributesDisplay.SetActive(hitCollider);
+
+        if(hitCollider) {
+            EntityStats stats= entity.EntityStats;
+            healthDisplay.text = $"{stats.Stamina}/{stats.CurrentHealth}/{stats.MaxHealth}";
+            manaDisplay.text = $"{stats.CurrentMana}/{stats.MaxMana}";
+        }
+    }
+
+    private void ToggleSkillDisplay(bool hitCollider) {
+        if(hitCollider && InputHelper.Interact()) {
+            battleUI.SetActive(!battleUI.activeSelf);
+            
+            if(battleUI.activeSelf) {
+                skillSelect.SetSkills(entity.Skills);
+            }
+        }
+        
     }
 }
 }

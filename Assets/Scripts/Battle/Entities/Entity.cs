@@ -15,6 +15,7 @@ namespace Battle.Entities
         {
             Name = name;
             EntityStats = stats;
+            Skills = skills;
         }
 
         public override string ToString()
