@@ -8,7 +8,7 @@ namespace Global {
 
 public class PlayerStats : MonoBehaviour {
 
-    public Entity entity;
+    public List<Entity> entities;
 
     void Awake() {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("MultiSceneData");
@@ -18,15 +18,37 @@ public class PlayerStats : MonoBehaviour {
             DontDestroyOnLoad(this.gameObject);
         }
 
-        entity = new Entity("Anonymo", 
-        new EntityStats(
-            100, 80, 80, 100, 80, 10, 15, 15, 10
-        ), 
-        new List<Skill> {
-             new MagicBolt(),
-             new PhysicalStrike(),
-             new TripleStrike()
-        });
+        entities = new List<Entity> {
+            new Entity("Anonymo", 
+                new EntityStats(
+                    100, 80, 80, 100, 80, 10, 15, 15, 10
+                ), 
+                new List<Skill> {
+                    new MagicBolt(),
+                    new PhysicalStrike(),
+                    new TripleStrike()
+                }),
+            new Entity("Andaru", 
+                new EntityStats(
+                    100, 80, 80, 100, 80, 10, 15, 15, 10
+                ), 
+                new List<Skill> {
+                }),
+            new Entity("Sean", 
+                new EntityStats(
+                    100, 80, 80, 100, 80, 10, 15, 15, 10
+                ), 
+                new List<Skill> {
+                }),
+            new Entity("Wumah", 
+                new EntityStats(
+                    100, 80, 80, 100, 80, 10, 15, 15, 10
+                ), 
+                new List<Skill> {
+                    new MagicBolt()
+                })
+        };
+
     }
 
     void Start() {
