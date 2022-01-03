@@ -17,19 +17,13 @@ public class Entity : MonoBehaviour {
     private Text manaDisplay = default;
     [SerializeField]
     private Text titleDisplay = default;
-    private GameObject battleUI;
-    private SkillSelect skillSelect;
-
-    public Battle.Entities.Entity EntityData { get; private set; }
+    public Battle.Entities.Entity EntityData { get; set; }
     public UnityEvent OnClick { get; private set; }
 
 
     // Start is called before the first frame update
     void Start() {
-        battleUI = GameObject.FindGameObjectWithTag("BattleUI");
-        skillSelect = battleUI.transform.Find("SkillSelect").GetComponent<SkillSelect>();
-        int gridIndex = transform.GetSiblingIndex();
-        EntityData = GameObject.FindGameObjectWithTag("MultiSceneData").GetComponent<PlayerStats>().entities[gridIndex];
+        
     }
 
     void Awake() {
