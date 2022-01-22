@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace Battle.Entities {
     
     public abstract class Skill {
@@ -11,6 +13,8 @@ namespace Battle.Entities {
         }
 
         public bool IsUseable(Entity source) => condition.IsSatisfied(source);
+        public abstract IEnumerator InitiateSkillTargeting(ISkillTargetMode skillTargetMode);
+
     }
 }
 

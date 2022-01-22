@@ -6,15 +6,15 @@ namespace Battle.UI
 {
 
 class SkillPlan : MonoBehaviour {
-    private Dictionary<string, SkillSelectConfig> plannedSkills;
+    private Dictionary<string, AbstractSkillSelectConfig> plannedSkills;
     [SerializeField]
     private GameObject plannedSkillUIFieldPrefab;
 
     void Start() {
-        plannedSkills = new Dictionary<string, SkillSelectConfig>();
+        plannedSkills = new Dictionary<string, AbstractSkillSelectConfig>();
     }
 
-    public void SetSkill(SkillSelectConfig skillConfig) {
+    public void SetSkill(AbstractSkillSelectConfig skillConfig) {
         plannedSkills[skillConfig.Source.EntityData.Name] = skillConfig;
         ResetPlannedSkills();
     }
@@ -24,9 +24,11 @@ class SkillPlan : MonoBehaviour {
             GameObject.Destroy(child.gameObject);
         }
 
-        foreach(SkillSelectConfig skillConfig in plannedSkills.Values) {
-            Text plannedSkillUIField = Instantiate(plannedSkillUIFieldPrefab, this.transform).GetComponent<Text>();
-            plannedSkillUIField.text = skillConfig.ToString();
+        foreach(AbstractSkillSelectConfig skillConfig in plannedSkills.Values) {
+            if(skillConfig.Source.PlayerControlled) {
+                Text plannedSkillUIField = Instantiate(plannedSkillUIFieldPrefab, this.transform).GetComponent<Text>();
+                plannedSkillUIField.text = skillConfig.DisplayText;
+            }
         }
     }
 }

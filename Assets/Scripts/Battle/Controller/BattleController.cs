@@ -1,5 +1,10 @@
+using System.Collections;
 using UnityEngine;
+using Battle.Skills;
+using Battle.Entities;
 using Battle.UI;
+using Battle.UI.SkillTargetMode;
+using Battle.UI.SkillSelectConfig;
 
 namespace Battle.Controller {
 
@@ -8,35 +13,50 @@ namespace Battle.Controller {
     }
 
     class BattleController : MonoBehaviour {
-        private BattleState battleState;
-        public SkillSelectConfig SkillSelectState { get; private set; }
+        
+        public EntityGrid EntityGrid { get; private set; }
+        public BattleState BattleState { get; private set; }
 
+        private GameObject battleUI;
+        private SkillSelect skillSelect;
+        private SkillPlan skillPlan;
+        private ISkillTargetMode skillTargeting;
 
         void Start() {
-            EntityGrid entityGrid = GameObject.Find("EntityGrid").GetComponent<EntityGrid>();
-            GameObject battleUI = GameObject.FindWithTag("BattleUI");
-            SkillSelect skillSelect = battleUI.transform.Find("SkillSelect").GetComponent<SkillSelect>();
-            SkillPlan skillPlan = battleUI.transform.Find("SkillPlan").GetComponent<SkillPlan>();
+            EntityGrid = GameObject.Find("EntityGrid").GetComponent<EntityGrid>();
+            EntityGrid.RefreshEntities();
+            battleUI = GameObject.FindWithTag("BattleUI");
+            skillSelect = battleUI.transform.Find("SkillSelect").GetComponent<SkillSelect>();
+            skillPlan = battleUI.transform.Find("SkillPlan").GetComponent<SkillPlan>();
+            skillTargeting = new StandardSkillTargetMode(this,
+                (skillSelectConfig) => {
+                    skillPlan.SetSkill(skillSelectConfig);
+                    skillSelect.gameObject.SetActive(false);
+                    BattleState = BattleState.SelectSkill;
+                }); 
+            BattleState = BattleState.SelectSkill;
 
-            entityGrid.SetEntities((entity) => {
-
-                if(entity.PlayerControlled && this.battleState == BattleState.SelectSkill) {
+            EntityGrid.AddEntityOnClick((entity) => {
+                if(entity.PlayerControlled && BattleState == BattleState.SelectSkill) {
                     skillSelect.gameObject.SetActive(true);
                     skillSelect.SetSkills(entity.EntityData.Skills, skill => {
-                        this.SkillSelectState.Skill = skill;
-                        this.battleState = BattleState.SelectSkillTarget;
+                        BattleState = BattleState.SelectSkillTarget;
+                        StartCoroutine(skill.InitiateSkillTargeting(skillTargeting));
                     });
-                    this.battleState = BattleState.SelectSkill;
-                    this.SkillSelectState = new SkillSelectConfig { Source = entity };
-
-                } else if (this.battleState == BattleState.SelectSkillTarget) {
-                    skillSelect.gameObject.SetActive(false);
-                    this.battleState = BattleState.SelectSkill;
-                    this.SkillSelectState.Target = entity;
-                    skillPlan.SetSkill(this.SkillSelectState);
                 }
             });
             
+            InitialiseEntitySkills();
         }
+
+        private void InitialiseEntitySkills() {
+            foreach(Battle.UI.Entity entity in EntityGrid) {
+                skillPlan.SetSkill(new NoTargetSkillSelectConfig {
+                    Source = entity,
+                    Skill = new NoAction()
+                });
+            }
+        }
+
     }
 }
