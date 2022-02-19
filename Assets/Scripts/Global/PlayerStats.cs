@@ -8,7 +8,8 @@ namespace Global {
 
 public class PlayerStats : MonoBehaviour {
 
-    public List<Entity> entities;
+    public PositionalList<Entity> friendlyEntities;
+    public PositionalList<Entity> hostileEntities;
 
     void Awake() {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("MultiSceneData");
@@ -18,37 +19,38 @@ public class PlayerStats : MonoBehaviour {
             DontDestroyOnLoad(this.gameObject);
         }
 
-        entities = new List<Entity> {
-            new Entity("Anonymo", 
-                new EntityStats(
-                    100, 80, 80, 100, 80, 10, 15, 15, 10
-                ), 
-                new List<Skill> {
-                    new MagicBolt(),
-                    new PhysicalStrike(),
-                    new TripleStrike()
-                }),
-            new Entity("Andaru", 
-                new EntityStats(
-                    100, 80, 80, 100, 80, 10, 15, 15, 10
-                ), 
-                new List<Skill> {
-                }),
-            new Entity("Sean", 
-                new EntityStats(
-                    100, 80, 80, 100, 80, 10, 15, 15, 10
-                ), 
-                new List<Skill> {
-                }),
-            new Entity("Wumah", 
-                new EntityStats(
-                    100, 80, 80, 100, 80, 10, 15, 15, 10
-                ), 
-                new List<Skill> {
-                    new MagicBolt()
-                })
-        };
+        friendlyEntities = new PositionalList<Entity>((_) => null, 4);
+        friendlyEntities[2] = new Entity("Anonymo", 
+        new EntityStats(
+                100, 80, 80, 100, 80, 10, 15, 15, 10
+            ), 
+            new List<Skill> {
+                new MagicBolt(),
+                new PhysicalStrike(),
+                new TripleStrike()
+        });
+        friendlyEntities[1] = new Entity("Womah", 
+            new EntityStats(
+                100, 80, 80, 100, 80, 10, 15, 15, 10
+            ), 
+            new List<Skill> {
+                new MagicBolt(),
+                new TripleStrike()
+        });
 
+        hostileEntities = new PositionalList<Entity>((_) => null, 4);
+        hostileEntities[0] = new Entity("Andaru", 
+            new EntityStats(
+                100, 80, 80, 100, 80, 10, 15, 15, 10
+            ), 
+            new List<Skill> {}
+        );
+        hostileEntities[3] = new Entity("Sean", 
+            new EntityStats(
+                100, 80, 80, 100, 80, 10, 15, 15, 10
+            ), 
+            new List<Skill> { }
+        );
     }
 
     void Start() {

@@ -3,6 +3,7 @@ using UnityEngine;
 using Battle.Skills;
 using Battle.Entities;
 using Battle.UI;
+using Battle.UI.Entities;
 using Battle.UI.SkillTargetMode;
 using Battle.UI.SkillSelectConfig;
 
@@ -50,7 +51,7 @@ namespace Battle.Controller {
         }
 
         private void InitialiseEntitySkills() {
-            foreach(Battle.UI.Entity entity in EntityGrid) {
+            foreach(PhysicalEntity entity in EntityGrid) {
                 skillPlan.SetSkill(new NoTargetSkillSelectConfig {
                     Source = entity,
                     Skill = new NoAction()

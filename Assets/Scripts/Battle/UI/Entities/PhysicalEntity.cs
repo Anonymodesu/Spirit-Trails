@@ -5,8 +5,8 @@ using UnityEngine.Events;
 using Battle.Entities.Stats;
 
 
-namespace Battle.UI {
-public class Entity : MonoBehaviour {
+namespace Battle.UI.Entities {
+public class PhysicalEntity : AbstractEntity {
 
     public bool PlayerControlled;
     [SerializeField]
@@ -18,7 +18,7 @@ public class Entity : MonoBehaviour {
     [SerializeField]
     private Text titleDisplay = default;
     public Battle.Entities.Entity EntityData { get; set; }
-    public UnityEvent OnClick { get; private set; }
+    private UnityEvent onClick;
 
 
     // Start is called before the first frame update
@@ -27,21 +27,25 @@ public class Entity : MonoBehaviour {
     }
 
     void Awake() {
-        OnClick = new UnityEvent();
+        onClick = new UnityEvent();
     }
 
     // Update is called once per frame
     void Update() {
         RaycastHit2D hit = CursorHelper.RaycastCursor(LayerMask.GetMask("Interactables"));
-        bool hitCollider = hit.collider != null 
+        bool hitCollider = hit.collider != null
                         && hit.collider.gameObject == this.gameObject;
         InvokeOnClick(hitCollider);
         ToggleAttributeDisplay(hitCollider);
     }
 
+    public override void AddOnClickCallback(UnityAction action) {
+        onClick.AddListener(action);
+    }
+
     private void InvokeOnClick(bool hitCollider) {
         if(hitCollider && InputHelper.Interact()) {
-            OnClick.Invoke();
+            onClick.Invoke();
         }
     }
 

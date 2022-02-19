@@ -2,6 +2,7 @@ using Battle.Controller;
 using Battle.Entities;
 using Battle.Skills;
 using Battle.UI.SkillSelectConfig;
+using Battle.UI.Entities;
 using System.Collections;
 using System;
 using UnityEngine;
@@ -10,8 +11,8 @@ namespace Battle.UI.SkillTargetMode
 {
     
 class StandardSkillTargetMode : ISkillTargetMode {
-    private Entity sourceEntity;
-    private Entity targetEntity;
+    private PhysicalEntity sourceEntity;
+    private PhysicalEntity targetEntity;
 
 
     private Action<AbstractSkillSelectConfig> completeSkillSelection;
