@@ -12,8 +12,9 @@ namespace Battle.Entities.Stats
         public int Defence { get; }
         public int MagicPotency { get; }
         public int MagicResistance { get; }
+        public int Speed { get; }
 
-        public EntityStats(int maxHP, int currentHP, int stamina, int maxMana, int currentMana, int attack, int defence, int magicPotency, int magicResistance)
+        public EntityStats(int maxHP, int currentHP, int stamina, int maxMana, int currentMana, int attack, int defence, int magicPotency, int magicResistance, int speed)
         {
             if(currentHP > maxHP || currentHP < 0) {
                 throw new ArgumentException($"Invalid values for HP: {currentHP}/{maxHP}");
@@ -36,6 +37,9 @@ namespace Battle.Entities.Stats
             if(magicResistance < 0) {
                 throw new ArgumentException($"Invalid values for magicResistance: {magicResistance}");
             }
+            if(speed < 0) {
+                throw new ArgumentException($"Invalid values for magicResistance: {magicResistance}");
+            }
 
             MaxHealth = maxHP;
             CurrentHealth = currentHP;
@@ -46,12 +50,13 @@ namespace Battle.Entities.Stats
             Defence = defence;
             MagicPotency = magicPotency;
             MagicResistance = magicResistance;
+            Speed = speed;
         }
 
         public override string ToString()
         {
             return $"Health:{CurrentHealth}/{MaxHealth} Stamina:{Stamina}/{CurrentHealth} Mana:{CurrentMana}/{MaxMana} " +
-            $"Attack:{Attack} Defence:{Defence} MagicPotency:{MagicPotency} MagicResistance:{MagicResistance}";
+            $"Attack:{Attack} Defence:{Defence} MagicPotency:{MagicPotency} MagicResistance:{MagicResistance} Speed: {Speed}";
         }
     }
 }

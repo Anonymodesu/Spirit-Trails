@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,9 @@ class SkillPlan : MonoBehaviour {
             GameObject.Destroy(child.gameObject);
         }
 
-        foreach(AbstractSkillSelectConfig skillConfig in plannedSkills.Values) {
+        // Higher speed values go first.
+        IEnumerable<AbstractSkillSelectConfig> sortedSkills = plannedSkills.Values.OrderByDescending(skill => skill.Source.EntityData.EntityStats.Speed);
+        foreach(AbstractSkillSelectConfig skillConfig in sortedSkills) {
             if(skillConfig.Source.PlayerControlled) {
                 Text plannedSkillUIField = Instantiate(plannedSkillUIFieldPrefab, this.transform).GetComponent<Text>();
                 plannedSkillUIField.text = skillConfig.DisplayText;

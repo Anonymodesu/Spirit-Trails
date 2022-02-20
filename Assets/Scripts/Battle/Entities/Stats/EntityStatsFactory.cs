@@ -11,6 +11,7 @@ namespace Battle.Entities.Stats
         private int defence;
         private int magicPotency;
         private int magicResistance;
+        private int speed;
 
         public EntityStatsFactory(EntityStats fields) {
             this.maxHealth = fields.MaxHealth;
@@ -22,6 +23,7 @@ namespace Battle.Entities.Stats
             this.defence = fields.Defence;
             this.magicPotency = fields.MagicPotency;
             this.magicResistance = fields.MagicResistance;
+            this.speed = fields.Speed;
         }
 
         public EntityStatsFactory SetCurrentHealth(int currentHealth) {
@@ -67,7 +69,8 @@ namespace Battle.Entities.Stats
             attack,
             defence,
             magicPotency,
-            magicResistance
+            magicResistance,
+            speed
         );
     }
 }
