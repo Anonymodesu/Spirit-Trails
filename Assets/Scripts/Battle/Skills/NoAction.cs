@@ -10,7 +10,7 @@ namespace Battle.Skills
         public NoAction() : base(new NullCondition()) {
         }
 
-        public IEffect Build(Entity source, Entity target) =>
+        public override IEffect Build(Entity source) =>
             new EmptyEffect();
 
     }

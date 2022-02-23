@@ -34,20 +34,13 @@ class StandardSkillTargetMode : ISkillTargetMode {
     
     public IEnumerator InitiateTargeting(SingleTargetAttackSkill skill) {
         yield return WaitForTargetClick();
-        var skillSelectConfig = new SingleTargetSkillSelectConfig {
-            Source = sourceEntity,
-            Target = targetEntity,
-            Skill = skill
-        };
+        var skillSelectConfig = new SingleTargetSkillSelectConfig(skill, sourceEntity, targetEntity);
         completeSkillSelection(skillSelectConfig);
     }
 
     public IEnumerator InitiateTargeting(NoTargetSkill skill) {
         yield return null;
-        completeSkillSelection(new NoTargetSkillSelectConfig {
-            Source = sourceEntity,
-            Skill = skill,
-        });
+        completeSkillSelection(new NoTargetSkillSelectConfig(skill, sourceEntity));
     }
 
     private IEnumerator WaitForTargetClick() {

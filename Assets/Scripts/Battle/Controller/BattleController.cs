@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using Battle.Skills;
 using Battle.Entities;
 using Battle.UI;
@@ -21,6 +21,7 @@ namespace Battle.Controller {
         private GameObject battleUI;
         private SkillSelect skillSelect;
         private SkillPlan skillPlan;
+        private Button battleButton;
         private ISkillTargetMode skillTargeting;
 
         void Start() {
@@ -29,6 +30,8 @@ namespace Battle.Controller {
             battleUI = GameObject.FindWithTag("BattleUI");
             skillSelect = battleUI.transform.Find("SkillSelect").GetComponent<SkillSelect>();
             skillPlan = battleUI.transform.Find("SkillPlan").GetComponent<SkillPlan>();
+            battleButton = battleUI.transform.Find("BattleButton").GetComponent<Button>();
+
             skillTargeting = new StandardSkillTargetMode(this,
                 (skillSelectConfig) => {
                     skillPlan.SetSkill(skillSelectConfig);
@@ -46,16 +49,22 @@ namespace Battle.Controller {
                     });
                 }
             });
+
+            battleButton.onClick.AddListener(() => {
+                foreach(AbstractSkillSelectConfig conf in skillPlan) {
+                    conf.Build().Activate();
+                }
+
+                Debug.Log("Executed skills! Resetting skills.");
+                InitialiseEntitySkills();
+            });
             
             InitialiseEntitySkills();
         }
 
         private void InitialiseEntitySkills() {
             foreach(PhysicalEntity entity in EntityGrid) {
-                skillPlan.SetSkill(new NoTargetSkillSelectConfig {
-                    Source = entity,
-                    Skill = new NoAction()
-                });
+                skillPlan.SetSkill(new NoTargetSkillSelectConfig(new NoAction(), entity));
             }
         }
 

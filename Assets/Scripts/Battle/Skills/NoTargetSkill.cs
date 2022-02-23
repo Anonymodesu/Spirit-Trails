@@ -12,5 +12,7 @@ namespace Battle.Skills
         public override IEnumerator InitiateSkillTargeting(ISkillTargetMode skillTargetMode) {
             return skillTargetMode.InitiateTargeting(this);
         }
+
+        public abstract IEffect Build(Entity source);
     }
 }

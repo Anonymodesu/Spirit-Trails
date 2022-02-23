@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Battle.UI
 {
 
-class SkillPlan : MonoBehaviour {
+class SkillPlan : MonoBehaviour, IEnumerable<AbstractSkillSelectConfig> {
+
+    // Use a Dictionary to constrain 1 skill selected per Entity
     private Dictionary<string, AbstractSkillSelectConfig> plannedSkills;
     [SerializeField]
     private GameObject plannedSkillUIFieldPrefab;
 
-    void Start() {
+    void Awake() {
         plannedSkills = new Dictionary<string, AbstractSkillSelectConfig>();
     }
 
@@ -26,13 +29,20 @@ class SkillPlan : MonoBehaviour {
         }
 
         // Higher speed values go first.
-        IEnumerable<AbstractSkillSelectConfig> sortedSkills = plannedSkills.Values.OrderByDescending(skill => skill.Source.EntityData.EntityStats.Speed);
-        foreach(AbstractSkillSelectConfig skillConfig in sortedSkills) {
+        foreach(AbstractSkillSelectConfig skillConfig in this) {
             if(skillConfig.Source.PlayerControlled) {
                 Text plannedSkillUIField = Instantiate(plannedSkillUIFieldPrefab, this.transform).GetComponent<Text>();
                 plannedSkillUIField.text = skillConfig.DisplayText;
             }
         }
+    }
+
+    // Return a list of skill configs sorted by the source entity's speed
+    public IEnumerator<AbstractSkillSelectConfig> GetEnumerator() 
+        => plannedSkills.Values.OrderByDescending(skill => skill.Source.EntityData.EntityStats.Speed).GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() {
+        return GetEnumerator();
     }
 }
 
