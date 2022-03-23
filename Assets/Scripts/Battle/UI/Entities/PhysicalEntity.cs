@@ -8,7 +8,7 @@ using Battle.Entities.Stats;
 namespace Battle.UI.Entities {
 public class PhysicalEntity : AbstractEntity {
 
-    public bool PlayerControlled;
+    public bool IsFriendly;
     [SerializeField]
     private GameObject attributesDisplay = default;
     [SerializeField]

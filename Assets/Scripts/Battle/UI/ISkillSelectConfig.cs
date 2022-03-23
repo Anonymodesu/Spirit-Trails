@@ -4,9 +4,9 @@ using Battle.UI.Entities;
 namespace Battle.UI
 {
     
-abstract class AbstractSkillSelectConfig {
-    public PhysicalEntity Source { get; protected set; }
-    public Skill Skill { get; protected set; }
+public interface ISkillSelectConfig {
+    public PhysicalEntity Source { get; }
+    public Skill Skill { get; }
 
     public abstract string DisplayText { get; }
     public abstract IEffect Build(); 

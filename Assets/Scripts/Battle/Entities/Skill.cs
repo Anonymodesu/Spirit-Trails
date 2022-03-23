@@ -1,4 +1,4 @@
-using System.Collections;
+using Battle.UI;
 
 namespace Battle.Entities {
     
@@ -13,7 +13,7 @@ namespace Battle.Entities {
         }
 
         public bool IsUseable(Entity source) => condition.IsSatisfied(source);
-        public abstract IEnumerator InitiateSkillTargeting(ISkillTargetMode skillTargetMode);
+        public abstract ISkillSelectConfig InitiateSkillTargeting(ISkillTargetMode skillTargetMode);
 
     }
 }

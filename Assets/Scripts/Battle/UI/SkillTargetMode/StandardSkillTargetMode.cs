@@ -14,12 +14,13 @@ class StandardSkillTargetMode : ISkillTargetMode {
     private PhysicalEntity sourceEntity;
     private PhysicalEntity targetEntity;
 
+    private BattleController battleController;
+    private Action<ISkillSelectConfig> completeSkillSelection;
 
-    private Action<AbstractSkillSelectConfig> completeSkillSelection;
 
-
-    public StandardSkillTargetMode(BattleController controller, Action<AbstractSkillSelectConfig> completeSkillSelection) {
+    public StandardSkillTargetMode(BattleController controller, Action<ISkillSelectConfig> completeSkillSelection) {
         this.completeSkillSelection = completeSkillSelection;
+        this.battleController = controller;
         controller.EntityGrid.AddEntityOnClick((entity) => {
             switch (controller.BattleState) {
                 case BattleState.SelectSkill:
@@ -32,15 +33,24 @@ class StandardSkillTargetMode : ISkillTargetMode {
         });
     }
     
-    public IEnumerator InitiateTargeting(SingleTargetAttackSkill skill) {
-        yield return WaitForTargetClick();
-        var skillSelectConfig = new SingleTargetSkillSelectConfig(skill, sourceEntity, targetEntity);
-        completeSkillSelection(skillSelectConfig);
+    public ISkillSelectConfig InitiateTargeting(SingleTargetAttackSkill skill) {
+        DelayedSkillSelectConfig delayedSkillSelectConfig = new DelayedSkillSelectConfig();
+
+        IEnumerator GetTarget() {
+            yield return WaitForTargetClick();
+            var skillSelectConfig = new SingleTargetSkillSelectConfig(skill, sourceEntity, targetEntity);
+            delayedSkillSelectConfig.SetSkillSelectConfig(skillSelectConfig);
+            completeSkillSelection(skillSelectConfig);
+        }
+        
+        battleController.StartCoroutine(GetTarget());
+        return delayedSkillSelectConfig;
     }
 
-    public IEnumerator InitiateTargeting(NoTargetSkill skill) {
-        yield return null;
-        completeSkillSelection(new NoTargetSkillSelectConfig(skill, sourceEntity));
+    public ISkillSelectConfig InitiateTargeting(NoTargetSkill skill) {
+        var skillSelectConfig = new NoTargetSkillSelectConfig(skill, sourceEntity);
+        completeSkillSelection(skillSelectConfig);
+        return skillSelectConfig;
     }
 
     private IEnumerator WaitForTargetClick() {

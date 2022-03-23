@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Battle.Skills;
+using Battle.Controller.AI;
 using Battle.Entities;
 using Battle.UI;
 using Battle.UI.Entities;
@@ -23,6 +24,7 @@ namespace Battle.Controller {
         private SkillPlan skillPlan;
         private Button battleButton;
         private ISkillTargetMode skillTargeting;
+        private AbstractEntityAI entityAI;
 
         void Start() {
             EntityGrid = GameObject.Find("EntityGrid").GetComponent<EntityGrid>();
@@ -41,17 +43,17 @@ namespace Battle.Controller {
             BattleState = BattleState.SelectSkill;
 
             EntityGrid.AddEntityOnClick((entity) => {
-                if(entity.PlayerControlled && BattleState == BattleState.SelectSkill) {
+                if(entity.IsFriendly && BattleState == BattleState.SelectSkill) {
                     skillSelect.gameObject.SetActive(true);
                     skillSelect.SetSkills(entity.EntityData.Skills, skill => {
                         BattleState = BattleState.SelectSkillTarget;
-                        StartCoroutine(skill.InitiateSkillTargeting(skillTargeting));
+                        skill.InitiateSkillTargeting(skillTargeting);
                     });
                 }
             });
 
             battleButton.onClick.AddListener(() => {
-                foreach(AbstractSkillSelectConfig conf in skillPlan) {
+                foreach(ISkillSelectConfig conf in skillPlan) {
                     conf.Build().Activate();
                 }
 
@@ -59,12 +61,17 @@ namespace Battle.Controller {
                 InitialiseEntitySkills();
             });
             
+            entityAI = new BasicEntityAI();
             InitialiseEntitySkills();
         }
 
         private void InitialiseEntitySkills() {
             foreach(PhysicalEntity entity in EntityGrid) {
-                skillPlan.SetSkill(new NoTargetSkillSelectConfig(new NoAction(), entity));
+                if(entity.IsFriendly) {
+                    skillPlan.SetSkill(new NoTargetSkillSelectConfig(new NoAction(), entity));
+                } else {
+                    skillPlan.SetSkill(entityAI.SelectSkill(entity, EntityGrid));
+                }
             }
         }
 

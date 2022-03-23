@@ -1,5 +1,5 @@
 using Battle.Entities;
-using System.Collections;
+using Battle.UI;
 
 namespace Battle.Skills
 {
@@ -12,7 +12,7 @@ namespace Battle.Skills
 
         public abstract IEffect Build(Entity source, Entity target);
 
-        public override IEnumerator InitiateSkillTargeting(ISkillTargetMode skillTargetMode) {
+        public override ISkillSelectConfig InitiateSkillTargeting(ISkillTargetMode skillTargetMode) {
             return skillTargetMode.InitiateTargeting(this);
         }
     }

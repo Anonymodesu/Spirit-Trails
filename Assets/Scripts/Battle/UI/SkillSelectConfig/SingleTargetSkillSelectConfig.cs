@@ -5,7 +5,10 @@ using Battle.UI.Entities;
 namespace Battle.UI.SkillSelectConfig
 {
     
-class SingleTargetSkillSelectConfig : AbstractSkillSelectConfig {
+public class SingleTargetSkillSelectConfig : ISkillSelectConfig {
+    public PhysicalEntity Source { get; }
+    public Skill Skill { get; }
+
     public PhysicalEntity Target { get; protected set; }
 
     public SingleTargetSkillSelectConfig(SingleTargetAttackSkill skill, PhysicalEntity source, PhysicalEntity target) {
@@ -14,11 +17,11 @@ class SingleTargetSkillSelectConfig : AbstractSkillSelectConfig {
         this.Target = target;
     }
 
-    public override string DisplayText {
-        get  => $"{Source.EntityData.Name} - {Skill.Name} -> {Target.EntityData.Name}";
+    public string DisplayText {
+        get => $"{Source.EntityData.Name} - {Skill.Name} -> {Target.EntityData.Name}";
     }
 
-    public override IEffect Build() {
+    public IEffect Build() {
         return ((SingleTargetAttackSkill) Skill).Build(this.Source.EntityData, this.Target.EntityData);
     }
 }

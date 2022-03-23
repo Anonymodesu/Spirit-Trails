@@ -5,18 +5,20 @@ using Battle.UI.Entities;
 namespace Battle.UI.SkillSelectConfig
 {
     
-class NoTargetSkillSelectConfig : AbstractSkillSelectConfig {
+public class NoTargetSkillSelectConfig : ISkillSelectConfig {
+    public PhysicalEntity Source { get; }
+    public Skill Skill { get; }
 
     public NoTargetSkillSelectConfig(NoTargetSkill skill, PhysicalEntity source) {
         this.Skill = skill;
         this.Source = source;
     }
 
-    public override string DisplayText {
+    public string DisplayText {
         get => $"{Source.EntityData.Name} - {Skill.Name}";
     }
 
-    public override IEffect Build() {
+    public IEffect Build() {
         return ((NoTargetSkill) Skill).Build(this.Source.EntityData);
     }
 }

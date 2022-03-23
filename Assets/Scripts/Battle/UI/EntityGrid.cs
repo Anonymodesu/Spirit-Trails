@@ -43,7 +43,7 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
         for(int i = 0; i < numEntities; i++) {
             if(entityData.IsNotable(i)) {
                 PhysicalEntity entity = Instantiate(physicalEntityPrefab, this.transform, false);
-                entity.PlayerControlled = isFriendly;
+                entity.IsFriendly = isFriendly;
                 entity.EntityData = entityData[i];
                 entity.transform.localPosition = getEntityPosition(i, isFriendly);
 

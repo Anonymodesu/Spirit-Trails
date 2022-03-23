@@ -1,12 +1,10 @@
 using Battle.Skills;
-using System.Collections;
-using System;
-
+using Battle.UI;
 namespace Battle.Entities
 {
     
 public interface ISkillTargetMode {
-    IEnumerator InitiateTargeting(SingleTargetAttackSkill skill);
-    IEnumerator InitiateTargeting(NoTargetSkill skill);
+    ISkillSelectConfig InitiateTargeting(SingleTargetAttackSkill skill);
+    ISkillSelectConfig InitiateTargeting(NoTargetSkill skill);
 }
 }
