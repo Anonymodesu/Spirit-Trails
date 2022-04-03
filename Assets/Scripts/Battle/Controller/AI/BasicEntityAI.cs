@@ -16,10 +16,10 @@ class BasicEntityAI: AbstractEntityAI {
         private EntityGrid entityGrid;
         private Random random;
 
-        public SkillTargeting(PhysicalEntity entity, EntityGrid entityGrid) {
+        public SkillTargeting(PhysicalEntity entity, EntityGrid entityGrid, Random random) {
             this.source = entity;
             this.entityGrid = entityGrid;
-            this.random = new Random();
+            this.random = random;
         }
 
         public ISkillSelectConfig InitiateTargeting(SingleTargetAttackSkill skill) {
@@ -43,7 +43,7 @@ class BasicEntityAI: AbstractEntityAI {
     public override ISkillSelectConfig SelectSkill(PhysicalEntity entity, EntityGrid entityGrid) {
         List<Skill> skills = entity.EntityData.Skills;
         Skill randomSkill = skills[random.Next(skills.Count)];
-        SkillTargeting skillTargeting = new SkillTargeting(entity, entityGrid);
+        SkillTargeting skillTargeting = new SkillTargeting(entity, entityGrid, random);
         return randomSkill.InitiateSkillTargeting(skillTargeting);
         
     }
