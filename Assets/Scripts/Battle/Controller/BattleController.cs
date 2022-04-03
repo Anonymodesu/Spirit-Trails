@@ -36,7 +36,8 @@ namespace Battle.Controller {
 
             skillTargeting = new StandardSkillTargetMode(this,
                 (skillSelectConfig) => {
-                    skillPlan.SetSkill(skillSelectConfig);
+                    // ResetPlannedSkills is required for configs wrapped with DelayedSkillSelectConfig
+                    skillPlan.ResetPlannedSkills();
                     skillSelect.gameObject.SetActive(false);
                     BattleState = BattleState.SelectSkill;
                 }); 
@@ -47,7 +48,8 @@ namespace Battle.Controller {
                     skillSelect.gameObject.SetActive(true);
                     skillSelect.SetSkills(entity.EntityData.Skills, skill => {
                         BattleState = BattleState.SelectSkillTarget;
-                        skill.InitiateSkillTargeting(skillTargeting);
+                        var skillSelectConfig = skill.InitiateSkillTargeting(skillTargeting);
+                        skillPlan.SetSkill(skillSelectConfig);
                     });
                 }
             });

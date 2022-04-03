@@ -1,17 +1,17 @@
 using Battle.Entities;
 using Battle.UI.Entities;
-using Global;
 using System;
-using System.Collections;
 
 namespace Battle.UI.SkillSelectConfig
 {
 
 // This class is container for another skill select config that hasn't identified its skill targets yet
-class DelayedSkillSelectConfig : ISkillSelectConfig {
-    public PhysicalEntity Source { get => SkillSelectConfig.Source; }
-    public Skill Skill { get => SkillSelectConfig.Skill; }
-    public string DisplayText { get => SkillSelectConfig.DisplayText; }
+class DelayedSkillSelectConfig<ConfigType, TargetType>: TargettedSkillSelectConfig<TargetType> 
+                                                        where ConfigType: TargettedSkillSelectConfig<TargetType> {
+
+    public override string DisplayText { 
+        get => IsReady ? SkillSelectConfig.DisplayText : $"{Source.EntityData.Name} - {Skill.Name} -> ?"; 
+    }
 
     public ISkillSelectConfig SkillSelectConfig {
         get {
@@ -25,17 +25,24 @@ class DelayedSkillSelectConfig : ISkillSelectConfig {
     public bool IsReady { get => skillSelectConfig != null; }
 
     private ISkillSelectConfig skillSelectConfig;
+    private Func<PhysicalEntity, Skill, TargetType, ConfigType> configConstructor;
 
-
-    public DelayedSkillSelectConfig() {
+    public DelayedSkillSelectConfig(
+        PhysicalEntity source,
+        Skill skill,
+        Func<PhysicalEntity, Skill, TargetType, ConfigType> configConstructor) {
+        this.Source = source;
+        this.Skill = skill;
+        this.configConstructor = configConstructor;
     }
 
-    public void SetSkillSelectConfig(ISkillSelectConfig config) {
-        this.skillSelectConfig = config;
+    public void SetTarget(TargetType target) {
+        this.Target = target;
+        this.skillSelectConfig = configConstructor(Source, Skill, Target);
     }
 
 
-    public IEffect Build() {
+    public override IEffect Build() {
         return SkillSelectConfig.Build();
     }
 }

@@ -34,17 +34,20 @@ class StandardSkillTargetMode : ISkillTargetMode {
     }
     
     public ISkillSelectConfig InitiateTargeting(SingleTargetAttackSkill skill) {
-        DelayedSkillSelectConfig delayedSkillSelectConfig = new DelayedSkillSelectConfig();
+        var skillSelectConfig = new DelayedSkillSelectConfig<SingleTargetSkillSelectConfig, PhysicalEntity>(
+            sourceEntity,
+            skill,
+            (source, skill, target) => new SingleTargetSkillSelectConfig((SingleTargetAttackSkill) skill, source, target)
+        );
 
         IEnumerator GetTarget() {
             yield return WaitForTargetClick();
-            var skillSelectConfig = new SingleTargetSkillSelectConfig(skill, sourceEntity, targetEntity);
-            delayedSkillSelectConfig.SetSkillSelectConfig(skillSelectConfig);
+            skillSelectConfig.SetTarget(targetEntity);
             completeSkillSelection(skillSelectConfig);
         }
         
         battleController.StartCoroutine(GetTarget());
-        return delayedSkillSelectConfig;
+        return skillSelectConfig;
     }
 
     public ISkillSelectConfig InitiateTargeting(NoTargetSkill skill) {
