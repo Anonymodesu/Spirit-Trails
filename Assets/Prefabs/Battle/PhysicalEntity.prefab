@@ -378,8 +378,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 60, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6577771789672389203
 Canvas:
@@ -540,11 +540,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31455d2b02319e4458f567fcf1b0bb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerControlled: 0
+  IsFriendly: 0
   attributesDisplay: {fileID: 6577771789672389207}
   healthDisplay: {fileID: 6577771789557057581}
   manaDisplay: {fileID: 4817762668564215535}
   titleDisplay: {fileID: 1109689120881222930}
+  backgroundImage: {fileID: 219251469411489783}
 --- !u!70 &6577771790420651153
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

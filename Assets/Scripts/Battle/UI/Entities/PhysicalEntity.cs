@@ -17,6 +17,8 @@ public class PhysicalEntity : AbstractEntity {
     private Text manaDisplay = default;
     [SerializeField]
     private Text titleDisplay = default;
+    [SerializeField]
+    private Image backgroundImage = default;
     public Battle.Entities.Entity EntityData { get; set; }
     private UnityEvent onClick;
 
@@ -33,10 +35,11 @@ public class PhysicalEntity : AbstractEntity {
     // Update is called once per frame
     void Update() {
         RaycastHit2D hit = CursorHelper.RaycastCursor(LayerMask.GetMask("Interactables"));
-        bool hitCollider = hit.collider != null
-                        && hit.collider.gameObject == this.gameObject;
+        bool hitCollider = hit.collider?.gameObject == this.gameObject;
         InvokeOnClick(hitCollider);
         ToggleAttributeDisplay(hitCollider);
+
+        updateEntityStats();
     }
 
     public override void AddOnClickCallback(UnityAction action) {
@@ -50,14 +53,15 @@ public class PhysicalEntity : AbstractEntity {
     }
 
     private void ToggleAttributeDisplay(bool hitCollider) {
-        attributesDisplay.SetActive(hitCollider);
+        byte alpha = (byte) (hitCollider ? 146 : 100);
+        backgroundImage.color = new Color32(255, 255, 255, alpha);
+    }
 
-        if(hitCollider) {
-            EntityStats stats = EntityData.EntityStats;
-            titleDisplay.text = EntityData.Name;
-            healthDisplay.text = $"{stats.Stamina}/{stats.CurrentHealth}/{stats.MaxHealth}";
-            manaDisplay.text = $"{stats.CurrentMana}/{stats.MaxMana}";
-        }
+    private void updateEntityStats() {
+        EntityStats stats = EntityData.EntityStats;
+        titleDisplay.text = EntityData.Name;
+        healthDisplay.text = $"{stats.Stamina}/{stats.CurrentHealth}/{stats.MaxHealth}";
+        manaDisplay.text = $"{stats.CurrentMana}/{stats.MaxMana}";
     }
 
 }
