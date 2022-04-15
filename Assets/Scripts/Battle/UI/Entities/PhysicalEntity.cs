@@ -2,7 +2,6 @@ using Global;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using Battle.Entities.Stats;
 
 
 namespace Battle.UI.Entities {
@@ -10,13 +9,7 @@ public class PhysicalEntity : AbstractEntity {
 
     public bool IsFriendly;
     [SerializeField]
-    private GameObject attributesDisplay = default;
-    [SerializeField]
-    private Text healthDisplay = default;
-    [SerializeField]
-    private Text manaDisplay = default;
-    [SerializeField]
-    private Text titleDisplay = default;
+    private StatsDisplayLite attributesDisplay = default;
     [SerializeField]
     private Image backgroundImage = default;
     public Battle.Entities.Entity EntityData { get; set; }
@@ -39,7 +32,7 @@ public class PhysicalEntity : AbstractEntity {
         InvokeOnClick(hitCollider);
         ToggleAttributeDisplay(hitCollider);
 
-        updateEntityStats();
+        attributesDisplay.UpdateStats(EntityData);
     }
 
     public override void AddOnClickCallback(UnityAction action) {
@@ -56,13 +49,5 @@ public class PhysicalEntity : AbstractEntity {
         byte alpha = (byte) (hitCollider ? 146 : 100);
         backgroundImage.color = new Color32(255, 255, 255, alpha);
     }
-
-    private void updateEntityStats() {
-        EntityStats stats = EntityData.EntityStats;
-        titleDisplay.text = EntityData.Name;
-        healthDisplay.text = $"{stats.Stamina}/{stats.CurrentHealth}/{stats.MaxHealth}";
-        manaDisplay.text = $"{stats.CurrentMana}/{stats.MaxMana}";
-    }
-
 }
 }
