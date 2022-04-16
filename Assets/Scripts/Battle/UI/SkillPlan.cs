@@ -20,20 +20,22 @@ class SkillPlan : MonoBehaviour, IEnumerable<ISkillSelectConfig> {
 
     public void SetSkill(ISkillSelectConfig skillConfig) {
         plannedSkills[skillConfig.Source.EntityData.Name] = skillConfig;
-        ResetPlannedSkills();
+        ResetDisplay();
     }
 
-    public void ResetPlannedSkills() {
+    public void ResetDisplay(ISkillSelectConfig highlightConfig = null) {
         foreach(Transform child in this.transform) {
             GameObject.Destroy(child.gameObject);
         }
 
         // Higher speed values go first.
         foreach(ISkillSelectConfig skillConfig in this) {
-            // if(skillConfig.Source.IsFriendly) {
-                Text plannedSkillUIField = Instantiate(plannedSkillUIFieldPrefab, this.transform).GetComponent<Text>();
-                plannedSkillUIField.text = skillConfig.DisplayText;
-            // }
+            Text plannedSkillUIField = Instantiate(plannedSkillUIFieldPrefab, this.transform).GetComponent<Text>();
+            plannedSkillUIField.text = skillConfig.DisplayText;
+
+            if(highlightConfig == skillConfig) {
+                plannedSkillUIField.fontStyle = FontStyle.Bold;
+            }
         }
     }
 

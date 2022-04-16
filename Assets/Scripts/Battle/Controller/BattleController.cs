@@ -7,6 +7,7 @@ using Battle.UI;
 using Battle.UI.Entities;
 using Battle.UI.SkillTargetMode;
 using Battle.UI.SkillSelectConfig;
+using System.Collections;
 
 namespace Battle.Controller {
 
@@ -36,8 +37,8 @@ namespace Battle.Controller {
 
             skillTargeting = new StandardSkillTargetMode(this,
                 (skillSelectConfig) => {
-                    // ResetPlannedSkills is required for configs wrapped with DelayedSkillSelectConfig
-                    skillPlan.ResetPlannedSkills();
+                    // ResetDisplay is required for configs wrapped with DelayedSkillSelectConfig
+                    skillPlan.ResetDisplay();
                     skillSelect.gameObject.SetActive(false);
                     BattleState = BattleState.SelectSkill;
                 }); 
@@ -54,14 +55,7 @@ namespace Battle.Controller {
                 }
             });
 
-            battleButton.onClick.AddListener(() => {
-                foreach(ISkillSelectConfig conf in skillPlan) {
-                    conf.Build().Activate();
-                }
-
-                Debug.Log("Executed skills! Resetting skills.");
-                InitialiseEntitySkills();
-            });
+            battleButton.onClick.AddListener(() => StartCoroutine(BattleSequence()));
             
             entityAI = new BasicEntityAI();
             InitialiseEntitySkills();
@@ -75,6 +69,21 @@ namespace Battle.Controller {
                     skillPlan.SetSkill(entityAI.SelectSkill(entity, EntityGrid));
                 }
             }
+        }
+
+        private IEnumerator BattleSequence() {
+            CanvasGroup canvas = battleUI.GetComponent<CanvasGroup>();
+            canvas.interactable = false;
+
+            foreach(ISkillSelectConfig conf in skillPlan) {
+                yield return new WaitForSeconds(1);
+                skillPlan.ResetDisplay(conf);
+                yield return new WaitForSeconds(1);
+                conf.Build().Activate();
+            }
+
+            canvas.interactable = true;
+            InitialiseEntitySkills();
         }
 
     }
