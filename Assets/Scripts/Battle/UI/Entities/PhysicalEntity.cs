@@ -2,25 +2,35 @@ using Global;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-
+using Battle.Entities;
 
 namespace Battle.UI.Entities {
 public class PhysicalEntity : AbstractEntity {
+
+    private readonly Color friendlyColor = new Color32(150, 150, 255, 0);
+    private readonly Color hostileColor = new Color32(255, 150, 150, 0);
+    private const float onHoverAlpha = 146;
+    private const float defaultAlpha = 100;
 
     public bool IsFriendly;
     [SerializeField]
     private StatsDisplayLite attributesDisplay = default;
     [SerializeField]
     private Image backgroundImage = default;
-    public Battle.Entities.Entity EntityData { get; set; }
+
+    public Entity EntityData { get; set; }
     private UnityEvent onClick;
 
-
-    // Start is called before the first frame update
-    void Start() {
-        
+    public static PhysicalEntity Instantiate(GameObject parent, PhysicalEntity prefab,
+        bool isFriendly, Entity entityData, Vector3 localPos) {
+        PhysicalEntity entity = UnityEngine.Object.Instantiate(prefab, parent.transform, false);
+        entity.IsFriendly = isFriendly;
+        entity.EntityData = entityData;
+        entity.transform.localPosition = localPos;
+        return entity;
     }
 
+    // Start is called before the first frame update
     void Awake() {
         onClick = new UnityEvent();
     }
@@ -46,8 +56,9 @@ public class PhysicalEntity : AbstractEntity {
     }
 
     private void ToggleAttributeDisplay(bool hitCollider) {
-        byte alpha = (byte) (hitCollider ? 146 : 100);
-        backgroundImage.color = new Color32(255, 255, 255, alpha);
+        Color32 color = IsFriendly ? friendlyColor : hostileColor;
+        color.a = (byte) (hitCollider ? onHoverAlpha : defaultAlpha);
+        backgroundImage.color = color;
     }
 }
 }

@@ -41,13 +41,18 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
         }, numEntities);
 
         for(int i = 0; i < numEntities; i++) {
-            if(entityData.IsNotable(i)) {
-                PhysicalEntity entity = Instantiate(physicalEntityPrefab, this.transform, false);
-                entity.IsFriendly = isFriendly;
-                entity.EntityData = entityData[i];
-                entity.transform.localPosition = getEntityPosition(i, isFriendly);
 
+            // Replace the Empty Entities created above with Physical Entities
+            if(entityData.IsNotable(i)) {
                 GameObject.Destroy(gridEntities[i]);
+
+                PhysicalEntity entity = PhysicalEntity.Instantiate(
+                    this.gameObject, 
+                    physicalEntityPrefab, 
+                    isFriendly,
+                    entityData[i], 
+                    getEntityPosition(i, isFriendly)                );
+                    
                 gridEntities[i] = entity;
             }
         }
