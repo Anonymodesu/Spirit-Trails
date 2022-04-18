@@ -55,9 +55,9 @@ public class PhysicalEntity : AbstractEntity {
         }
     }
 
-    private void ToggleAttributeDisplay(bool hitCollider) {
+    private void ToggleAttributeDisplay(bool isSolid) {
         Color32 color = IsFriendly ? friendlyColor : hostileColor;
-        color.a = (byte) (hitCollider ? onHoverAlpha : defaultAlpha);
+        color.a = (byte) (isSolid ? onHoverAlpha : defaultAlpha);
         backgroundImage.color = color;
     }
 }

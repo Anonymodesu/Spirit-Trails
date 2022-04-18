@@ -51,7 +51,8 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
                     physicalEntityPrefab, 
                     isFriendly,
                     entityData[i], 
-                    getEntityPosition(i, isFriendly)                );
+                    getEntityPosition(i, isFriendly)
+                );
                     
                 gridEntities[i] = entity;
             }
@@ -81,13 +82,6 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
     private Vector3 getEntityPosition(int i, bool isFriendly) {
         float entityHeight = isFriendly ? 0 : 5;
         return new Vector3(0, entityHeight, 0) + i * gridCellSize * Vector3.right;
-    }
-
-    public void SetEntity(bool isFriendly, int index, AbstractEntity entity) {
-        PositionalList<AbstractEntity> entities = isFriendly ? friendlyEntities : hostileEntities;
-        GameObject.Destroy(entities[index]);
-        entities[index] = entity;
-        entity.transform.localPosition = getEntityPosition(index, isFriendly);
     }
 
 }
