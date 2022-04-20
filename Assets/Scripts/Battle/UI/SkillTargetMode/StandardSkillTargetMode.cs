@@ -33,11 +33,11 @@ class StandardSkillTargetMode : ISkillTargetMode {
         });
     }
     
-    public ISkillSelectConfig InitiateTargeting(SingleTargetAttackSkill skill) {
+    public ISkillSelectConfig InitiateTargeting(SingleTargetSkill skill) {
         var skillSelectConfig = new DelayedSkillSelectConfig<SingleTargetSkillSelectConfig, PhysicalEntity>(
             sourceEntity,
             skill,
-            (source, skill, target) => new SingleTargetSkillSelectConfig((SingleTargetAttackSkill) skill, source, target)
+            (source, skill, target) => new SingleTargetSkillSelectConfig((SingleTargetSkill) skill, source, target)
         );
 
         IEnumerator GetTarget() {

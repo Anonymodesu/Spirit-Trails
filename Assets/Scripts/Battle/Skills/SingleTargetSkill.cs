@@ -3,11 +3,9 @@ using Battle.UI;
 
 namespace Battle.Skills
 {
-    public abstract class SingleTargetAttackSkill : Skill {
-        public int BasePower { get; }
+    public abstract class SingleTargetSkill : Skill {
 
-        public SingleTargetAttackSkill(int basePower, ICondition condition): base(condition) {
-            BasePower = basePower;
+        public SingleTargetSkill(ICondition condition): base(condition) {
         }
 
         public abstract IEffect Build(Entity source, Entity target);

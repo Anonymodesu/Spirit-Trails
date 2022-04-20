@@ -4,7 +4,7 @@ namespace Battle.Entities
 {
     
 public interface ISkillTargetMode {
-    ISkillSelectConfig InitiateTargeting(SingleTargetAttackSkill skill);
+    ISkillSelectConfig InitiateTargeting(SingleTargetSkill skill);
     ISkillSelectConfig InitiateTargeting(NoTargetSkill skill);
 }
 }

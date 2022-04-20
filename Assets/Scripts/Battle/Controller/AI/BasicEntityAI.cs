@@ -22,7 +22,7 @@ class BasicEntityAI: AbstractEntityAI {
             this.random = random;
         }
 
-        public ISkillSelectConfig InitiateTargeting(SingleTargetAttackSkill skill) {
+        public ISkillSelectConfig InitiateTargeting(SingleTargetSkill skill) {
             List<PhysicalEntity> entities = entityGrid.ToList<PhysicalEntity>();
             PhysicalEntity randomTarget = entities[random.Next(entities.Count)];
             return new SingleTargetSkillSelectConfig(skill, source, randomTarget);

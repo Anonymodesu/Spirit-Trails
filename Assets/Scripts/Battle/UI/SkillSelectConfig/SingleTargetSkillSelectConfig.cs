@@ -1,13 +1,14 @@
 using Battle.Entities;
 using Battle.Skills;
 using Battle.UI.Entities;
+using UnityEngine;
 
 namespace Battle.UI.SkillSelectConfig
 {
     
 public class SingleTargetSkillSelectConfig : TargettedSkillSelectConfig<PhysicalEntity> {
 
-    public SingleTargetSkillSelectConfig(SingleTargetAttackSkill skill, PhysicalEntity source, PhysicalEntity target) {
+    public SingleTargetSkillSelectConfig(SingleTargetSkill skill, PhysicalEntity source, PhysicalEntity target) {
         this.Source = source;
         this.Skill = skill;
         this.Target = target;
@@ -18,7 +19,7 @@ public class SingleTargetSkillSelectConfig : TargettedSkillSelectConfig<Physical
     }
 
     public override IEffect Build() {
-        return ((SingleTargetAttackSkill) Skill).Build(this.Source.EntityData, this.Target.EntityData);
+        return ((SingleTargetSkill) Skill).Build(this.Source.EntityData, this.Target.EntityData);
     }
 }
 }
