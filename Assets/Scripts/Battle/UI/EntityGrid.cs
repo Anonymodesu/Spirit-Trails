@@ -11,9 +11,9 @@ namespace Battle.UI
 class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
 
     [SerializeField]
-    private PhysicalEntity physicalEntityPrefab;
+    private EntityContainer physicalEntityPrefab;
     [SerializeField]
-    private EmptyEntity emptyEntityPrefab;
+    private EntityContainer emptyEntityPrefab;
 
     [SerializeField]
     private int numEntities = 4;
@@ -21,8 +21,9 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
     const int gridCellSize = 5;
 
     private PlayerStats playerData;
-    private PositionalList<AbstractEntity> friendlyEntities;
-    private PositionalList<AbstractEntity> hostileEntities;
+    private PositionalList<EntityContainer> friendlyEntities;
+    private PositionalList<EntityContainer> hostileEntities;
+
 
     void Awake() {
         playerData = GameObject.FindWithTag("MultiSceneData").GetComponent<PlayerStats>();
@@ -33,11 +34,13 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
         hostileEntities = InitialiseEntities(playerData.hostileEntities, false);
     }
 
-    private PositionalList<AbstractEntity> InitialiseEntities(PositionalList<Battle.Entities.Entity> entityData, bool isFriendly) {
-        PositionalList<AbstractEntity> gridEntities = new PositionalList<AbstractEntity>((i) => {
-            EmptyEntity entity = Instantiate(this.emptyEntityPrefab, this.transform, false);
-            entity.transform.localPosition = getEntityPosition(i, isFriendly);
-            return entity;
+    private PositionalList<EntityContainer> InitialiseEntities(PositionalList<Battle.Entities.Entity> entityData, bool isFriendly) {
+        PositionalList<EntityContainer> gridEntities = new PositionalList<EntityContainer>((i) => {
+            return EntityContainer.Instantiate(
+                this.gameObject, 
+                this.emptyEntityPrefab, 
+                new EmptyEntity(), 
+                getEntityPosition(i, isFriendly));
         }, numEntities);
 
         for(int i = 0; i < numEntities; i++) {
@@ -46,32 +49,54 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
             if(entityData.IsNotable(i)) {
                 GameObject.Destroy(gridEntities[i]);
 
-                PhysicalEntity entity = PhysicalEntity.Instantiate(
+                PhysicalEntity entity = new PhysicalEntity(isFriendly, entityData[i]);
+                    
+                gridEntities[i] = EntityContainer.Instantiate(
                     this.gameObject, 
                     physicalEntityPrefab, 
-                    isFriendly,
-                    entityData[i], 
+                    entity, 
                     getEntityPosition(i, isFriendly)
                 );
-                    
-                gridEntities[i] = entity;
             }
         }
         return gridEntities;
     }
 
-    public void AddEntityOnClick(Action<PhysicalEntity> entityFunc) {
-        foreach(PhysicalEntity entity in this) {
-            entity.AddOnClickCallback(() => entityFunc(entity));
+    public void AddPhysicalEntityOnClick(Action<PhysicalEntity> entityFunc) {
+        foreach(var container in PhysicalEntityEnumerator()) {
+            var entity = (PhysicalEntity) container.Entity;
+            container.AddOnClickCallback(() => entityFunc(entity));
         }
     }
 
-    public IEnumerator<PhysicalEntity> GetEnumerator() {
-        foreach(AbstractEntity entity in friendlyEntities) {
-            yield return (PhysicalEntity) entity;
+    public void AddContainerOnClick(Action<EntityContainer> entityFunc) {
+        foreach(var container in AbstractEntityEnumerator()) {
+            container.AddOnClickCallback(() => entityFunc(container));
         }
-        foreach(AbstractEntity entity in hostileEntities) {
-            yield return (PhysicalEntity) entity;
+    }
+
+
+    public IEnumerator<PhysicalEntity> GetEnumerator() {
+        foreach(EntityContainer container in PhysicalEntityEnumerator()) {
+            yield return (PhysicalEntity) container.Entity;
+        }
+    }
+
+    private IEnumerable<EntityContainer> PhysicalEntityEnumerator() {
+        foreach(EntityContainer container in friendlyEntities) {
+            yield return container;
+        }
+        foreach(EntityContainer container in hostileEntities) {
+            yield return container;
+        }
+    }
+
+    private IEnumerable<EntityContainer> AbstractEntityEnumerator() {
+        foreach(EntityContainer container in friendlyEntities.GetAll()) {
+            yield return container;
+        }
+        foreach(EntityContainer container in hostileEntities.GetAll()) {
+            yield return container;
         }
     }
 
@@ -82,6 +107,15 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
     private Vector3 getEntityPosition(int i, bool isFriendly) {
         float entityHeight = isFriendly ? 0 : 5;
         return new Vector3(0, entityHeight, 0) + i * gridCellSize * Vector3.right;
+    }
+
+    public IEnumerable<PhysicalEntity> GetEntities(bool isFriendly, int startPos, int endPos) {
+        var entities = isFriendly ? friendlyEntities : hostileEntities;
+        foreach(EntityContainer container in entities) {
+            if(startPos < container.Position && container.Position < endPos) {
+                yield return (PhysicalEntity) container.Entity;
+            }
+        }
     }
 
 }

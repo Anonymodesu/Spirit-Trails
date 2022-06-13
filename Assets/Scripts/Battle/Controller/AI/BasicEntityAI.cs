@@ -30,6 +30,10 @@ class BasicEntityAI: AbstractEntityAI {
         public ISkillSelectConfig InitiateTargeting(NoTargetSkill skill) {
             return new NoTargetSkillSelectConfig(skill, source);
         }
+
+        public ISkillSelectConfig InitiateTargeting(AoESkill skill) {
+            return null;
+        }
     }
 
 

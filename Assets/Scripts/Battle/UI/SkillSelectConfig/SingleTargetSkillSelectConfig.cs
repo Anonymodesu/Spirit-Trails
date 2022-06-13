@@ -1,7 +1,6 @@
 using Battle.Entities;
 using Battle.Skills;
 using Battle.UI.Entities;
-using UnityEngine;
 
 namespace Battle.UI.SkillSelectConfig
 {

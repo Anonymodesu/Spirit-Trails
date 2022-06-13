@@ -36,7 +36,7 @@ namespace Battle.Controller {
             battleButton = battleUI.transform.Find("BattleButton").GetComponent<Button>();
 
             skillTargeting = new StandardSkillTargetMode(this,
-                (skillSelectConfig) => {
+                () => {
                     // ResetDisplay is required for configs wrapped with DelayedSkillSelectConfig
                     skillPlan.ResetDisplay();
                     skillSelect.gameObject.SetActive(false);
@@ -44,7 +44,7 @@ namespace Battle.Controller {
                 }); 
             BattleState = BattleState.SelectSkill;
 
-            EntityGrid.AddEntityOnClick((entity) => {
+            EntityGrid.AddPhysicalEntityOnClick((entity) => {
                 if(entity.IsFriendly && BattleState == BattleState.SelectSkill) {
                     skillSelect.gameObject.SetActive(true);
                     skillSelect.SetSkills(entity.EntityData.Skills, skill => {

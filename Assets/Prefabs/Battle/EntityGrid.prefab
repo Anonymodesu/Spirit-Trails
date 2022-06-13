@@ -45,6 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   physicalEntityPrefab: {fileID: 6577771790420651154, guid: 24a9ab3980d4fa648aeed1995d8d41d0,
     type: 3}
-  emptyEntityPrefab: {fileID: -5986778556676693198, guid: dc2ddda9e749acb4990e54f945527eaa,
+  emptyEntityPrefab: {fileID: -6740242901744850773, guid: dc2ddda9e749acb4990e54f945527eaa,
     type: 3}
   numEntities: 4

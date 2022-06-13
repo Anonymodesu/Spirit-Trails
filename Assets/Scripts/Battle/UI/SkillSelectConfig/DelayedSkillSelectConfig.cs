@@ -31,6 +31,7 @@ class DelayedSkillSelectConfig<ConfigType, TargetType>: TargettedSkillSelectConf
         PhysicalEntity source,
         Skill skill,
         Func<PhysicalEntity, Skill, TargetType, ConfigType> configConstructor) {
+
         this.Source = source;
         this.Skill = skill;
         this.configConstructor = configConstructor;

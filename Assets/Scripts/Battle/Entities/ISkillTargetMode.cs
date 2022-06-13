@@ -5,6 +5,7 @@ namespace Battle.Entities
     
 public interface ISkillTargetMode {
     ISkillSelectConfig InitiateTargeting(SingleTargetSkill skill);
+    ISkillSelectConfig InitiateTargeting(AoESkill skill);
     ISkillSelectConfig InitiateTargeting(NoTargetSkill skill);
 }
 }

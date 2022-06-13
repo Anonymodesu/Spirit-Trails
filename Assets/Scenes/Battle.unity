@@ -679,6 +679,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: EntityGrid
       objectReference: {fileID: 0}
+    - target: {fileID: 7762001686026429106, guid: b98d0e359b657cc459cc887a8c4051d9,
+        type: 3}
+      propertyPath: emptyEntityPrefab
+      value: 
+      objectReference: {fileID: -4948834382206394759, guid: 5da9a706f6583984dbe47e80f6c5098f,
+        type: 3}
+    - target: {fileID: 7762001686026429106, guid: b98d0e359b657cc459cc887a8c4051d9,
+        type: 3}
+      propertyPath: physicalEntityPrefab
+      value: 
+      objectReference: {fileID: -4948834382206394759, guid: 24a9ab3980d4fa648aeed1995d8d41d0,
+        type: 3}
     - target: {fileID: 7762001686026429107, guid: b98d0e359b657cc459cc887a8c4051d9,
         type: 3}
       propertyPath: m_RootOrder

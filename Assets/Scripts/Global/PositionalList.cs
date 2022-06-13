@@ -4,6 +4,7 @@ using System;
 
 namespace Global {
 
+// Defines a fixed-length list, initialised with default values
 public class PositionalList<T> : IEnumerable<T> {
     private Func<int, T> defaultItemGenerator;
     private List<T> list;
@@ -37,6 +38,12 @@ public class PositionalList<T> : IEnumerable<T> {
     public IEnumerator<T> GetEnumerator() {
         foreach(int i in notableIndices) {
             yield return list[i];
+        }
+    }
+
+    public IEnumerable<T> GetAll() {
+        foreach(var item in list) {
+            yield return item;
         }
     }
 

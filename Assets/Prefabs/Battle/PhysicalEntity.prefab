@@ -922,9 +922,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6577771790420651155}
   - component: {fileID: 6577771790420651156}
-  - component: {fileID: 6577771790420651154}
   - component: {fileID: 6577771790420651153}
   - component: {fileID: 8812101918889791066}
+  - component: {fileID: -4948834382206394759}
   m_Layer: 9
   m_Name: PhysicalEntity
   m_TagString: Untagged
@@ -999,21 +999,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6577771790420651154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6577771790420651157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31455d2b02319e4458f567fcf1b0bb55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsFriendly: 0
-  attributesDisplay: {fileID: 8812101918889791066}
-  backgroundImage: {fileID: 219251469411489783}
 --- !u!70 &6577771790420651153
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1050,3 +1035,17 @@ MonoBehaviour:
   currentManaDisplay: {fileID: 2663409990265720595}
   manaText: {fileID: 7595358801779544317}
   titleDisplay: {fileID: 1109689120881222930}
+--- !u!114 &-4948834382206394759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6577771790420651157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32f5c1263aca454aac2f847b9bfcc4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attributesDisplay: {fileID: 8812101918889791066}
+  backgroundImage: {fileID: 219251469411489783}
