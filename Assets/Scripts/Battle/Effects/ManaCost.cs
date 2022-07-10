@@ -3,7 +3,7 @@ using Battle.Entities;
 using Battle.Entities.Stats;
 
 namespace Battle.Effects {
-    class ManaCost: IEffect {
+    public class ManaCost: IEffect {
 
         public Entity Entity { get; }
         public int Cost { get; }

@@ -1,6 +1,7 @@
 using Battle.Entities;
 using Battle.Effects;
 using Battle.Skills.Conditions;
+using Battle.UI;
 
 namespace Battle.Skills
 {
@@ -16,7 +17,7 @@ namespace Battle.Skills
         }
 
 
-        public override IEffect Build(Entity source, Entity target) =>
+        public override IEffect Build(Entity source, AbstractEntity target) =>
             new ManaCost(source, manaCost)
             .Next(new MagicDamage(source, target, basePower));
     }

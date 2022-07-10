@@ -13,7 +13,7 @@ namespace Battle.UI.SkillTargetMode
     
 class StandardSkillTargetMode : ISkillTargetMode {
     private PhysicalEntity sourceEntity;
-    private PhysicalEntity targetEntity;
+    private EntityContainer targetEntity;
 
     private BattleController battleController;
     private Action completeSkillSelection;
@@ -28,7 +28,7 @@ class StandardSkillTargetMode : ISkillTargetMode {
             }
         });
 
-        controller.EntityGrid.AddPhysicalEntityOnClick(entity => {
+        controller.EntityGrid.AddContainerOnClick(entity => {
             if (controller.BattleState == BattleState.SelectSkillTarget) {
                 targetEntity = entity;
             }
@@ -36,7 +36,7 @@ class StandardSkillTargetMode : ISkillTargetMode {
     }
     
     public ISkillSelectConfig InitiateTargeting(SingleTargetSkill skill) {
-        var skillSelectConfig = new DelayedSkillSelectConfig<SingleTargetSkillSelectConfig, PhysicalEntity>(
+        var skillSelectConfig = new DelayedSkillSelectConfig<EntityContainer>(
             sourceEntity,
             skill,
             (source, skill, target) => new SingleTargetSkillSelectConfig((SingleTargetSkill) skill, source, target)
@@ -53,7 +53,7 @@ class StandardSkillTargetMode : ISkillTargetMode {
     }
 
     public ISkillSelectConfig InitiateTargeting(AoESkill skill) {
-        var skillSelectConfig = new DelayedSkillSelectConfig<AoESkillSelectConfig, IEnumerable<PhysicalEntity>>(
+        var skillSelectConfig = new DelayedSkillSelectConfig<IEnumerable<PhysicalEntity>>(
             sourceEntity,
             skill,
             (source, skill, target) => new AoESkillSelectConfig((AoESkill) skill, source, target)

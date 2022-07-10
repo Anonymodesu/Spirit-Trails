@@ -82,7 +82,7 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
         }
     }
 
-    private IEnumerable<EntityContainer> PhysicalEntityEnumerator() {
+    public IEnumerable<EntityContainer> PhysicalEntityEnumerator() {
         foreach(EntityContainer container in friendlyEntities) {
             yield return container;
         }
@@ -91,7 +91,7 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
         }
     }
 
-    private IEnumerable<EntityContainer> AbstractEntityEnumerator() {
+    public IEnumerable<EntityContainer> AbstractEntityEnumerator() {
         foreach(EntityContainer container in friendlyEntities.GetAll()) {
             yield return container;
         }

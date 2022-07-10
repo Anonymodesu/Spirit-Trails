@@ -7,7 +7,7 @@ using Global;
 namespace Battle.UI
 {
     
-class EntityContainer : MonoBehaviour {
+public class EntityContainer : MonoBehaviour {
     public AbstractEntity Entity { get; set; }
     public int Position { get; }
 

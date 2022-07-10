@@ -1,8 +1,8 @@
-using Global;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
+using Battle.Entities.Stats;
 using Battle.Entities;
+using Battle.Effects;
 
 namespace Battle.UI.Entities {
 
@@ -14,6 +14,7 @@ public class PhysicalEntity : AbstractEntity {
     private const float onHoverAlpha = 146;
     private const float defaultAlpha = 100;
 
+    public override string Name => EntityData.Name;
     public bool IsFriendly;
 
 
@@ -32,6 +33,20 @@ public class PhysicalEntity : AbstractEntity {
 
     public override void UpdateFields(StatsDisplayLite statsDisplay) {
         statsDisplay.UpdateStats(EntityData);
+    }
+
+    public override void Interact(MagicDamage effect) {
+        EntityStats currentStats = EntityData.EntityStats;
+        int damage = effect.CalculateDamage(currentStats);
+        damage = (damage < 0) ? 0 : damage;
+        EntityData.EntityStats = currentStats.AdjustHealth(-damage);
+    }
+
+    public override void Interact(PhysicalDamage effect) {
+        EntityStats currentStats = EntityData.EntityStats;
+        int damage = effect.CalculateDamage(currentStats);
+        damage = (damage < 0) ? 0 : damage;
+        EntityData.EntityStats = currentStats.AdjustHealth(-damage);
     }
 }
 }

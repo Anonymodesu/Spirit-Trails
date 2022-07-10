@@ -23,8 +23,8 @@ class BasicEntityAI: AbstractEntityAI {
         }
 
         public ISkillSelectConfig InitiateTargeting(SingleTargetSkill skill) {
-            List<PhysicalEntity> entities = entityGrid.ToList<PhysicalEntity>();
-            PhysicalEntity randomTarget = entities[random.Next(entities.Count)];
+            List<EntityContainer> entities = entityGrid.PhysicalEntityEnumerator().ToList<EntityContainer>();
+            EntityContainer randomTarget = entities[random.Next(entities.Count)];
             return new SingleTargetSkillSelectConfig(skill, source, randomTarget);
         }
         public ISkillSelectConfig InitiateTargeting(NoTargetSkill skill) {
