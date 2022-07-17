@@ -6,6 +6,12 @@ namespace Battle.UI.Entities {
 
 public class EmptyEntity: AbstractEntity {
     public override string Name => "Empty Entity";
+    public override bool IsFriendly { get; }
+
+    public EmptyEntity(bool isFriendly) {
+        this.IsFriendly = isFriendly;
+    }
+
     public override void ToggleAttributeDisplay(Image backgroundImage, bool isHovering) {
         
     }

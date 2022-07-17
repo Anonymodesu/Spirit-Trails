@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour {
         friendlyEntities = new PositionalList<Entity>((_) => null, 4);
         friendlyEntities[2] = new Entity("Anonymo", 
         new EntityStats(
-                100, 80, 80, 100, 80, 10, 15, 15, 10, 2
+                100, 80, 80, 100, 80, 15, 15, 15, 10, 2
             ), 
             new List<Skill> {
                 new MagicBolt(),
@@ -32,18 +32,19 @@ public class PlayerStats : MonoBehaviour {
         );
         friendlyEntities[1] = new Entity("Womah", 
             new EntityStats(
-                100, 80, 80, 100, 80, 10, 15, 15, 10, 1
+                100, 80, 80, 100, 80, 15, 15, 15, 10, 1
             ), 
             new List<Skill> {
                 new MagicBolt(),
-                new TripleStrike()
+                new TripleStrike(),
+                new ArcaneAssault()
             }
         );
 
         hostileEntities = new PositionalList<Entity>((_) => null, 4);
         hostileEntities[0] = new Entity("Andaru", 
             new EntityStats(
-                100, 80, 80, 100, 80, 10, 15, 15, 10, 3
+                100, 80, 80, 100, 80, 15, 15, 15, 10, 3
             ), 
             new List<Skill> {
                 new MagicBolt(),
@@ -52,7 +53,7 @@ public class PlayerStats : MonoBehaviour {
         );
         hostileEntities[3] = new Entity("Sean", 
             new EntityStats(
-                100, 80, 80, 100, 80, 10, 15, 15, 10, 4
+                100, 80, 80, 100, 80, 15, 15, 15, 10, 4
             ), 
             new List<Skill> {
                 new MagicBolt(),

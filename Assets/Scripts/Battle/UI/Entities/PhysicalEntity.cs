@@ -15,7 +15,7 @@ public class PhysicalEntity : AbstractEntity {
     private const float defaultAlpha = 100;
 
     public override string Name => EntityData.Name;
-    public bool IsFriendly;
+    public override bool IsFriendly { get; }
 
 
     public Entity EntityData { get; set; }

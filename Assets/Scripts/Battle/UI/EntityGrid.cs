@@ -39,7 +39,7 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
             return EntityContainer.Instantiate(
                 this.gameObject, 
                 this.emptyEntityPrefab, 
-                new EmptyEntity(), 
+                new EmptyEntity(isFriendly), 
                 getEntityPosition(i, isFriendly));
         }, numEntities);
 
@@ -109,11 +109,11 @@ class EntityGrid : MonoBehaviour, IEnumerable<PhysicalEntity> {
         return new Vector3(0, entityHeight, 0) + i * gridCellSize * Vector3.right;
     }
 
-    public IEnumerable<PhysicalEntity> GetEntities(bool isFriendly, int startPos, int endPos) {
+    public IEnumerable<EntityContainer> GetEntities(bool isFriendly, int startPos, int endPos) {
         var entities = isFriendly ? friendlyEntities : hostileEntities;
-        foreach(EntityContainer container in entities) {
-            if(startPos < container.Position && container.Position < endPos) {
-                yield return (PhysicalEntity) container.Entity;
+        foreach(EntityContainer container in entities.GetAll()) {
+            if(startPos <= container.Position && container.Position <= endPos) {
+                yield return container;
             }
         }
     }

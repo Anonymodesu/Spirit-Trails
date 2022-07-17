@@ -13,7 +13,7 @@ namespace Battle.UI.SkillTargetMode
     
 class StandardSkillTargetMode : ISkillTargetMode {
     private PhysicalEntity sourceEntity;
-    private EntityContainer targetEntity;
+    private EntityContainer targetContainer;
 
     private BattleController battleController;
     private Action completeSkillSelection;
@@ -30,7 +30,7 @@ class StandardSkillTargetMode : ISkillTargetMode {
 
         controller.EntityGrid.AddContainerOnClick(entity => {
             if (controller.BattleState == BattleState.SelectSkillTarget) {
-                targetEntity = entity;
+                targetContainer = entity;
             }
         });
     }
@@ -44,7 +44,7 @@ class StandardSkillTargetMode : ISkillTargetMode {
 
         IEnumerator GetTarget() {
             yield return WaitForTargetClick();
-            skillSelectConfig.SetTarget(targetEntity);
+            skillSelectConfig.SetTarget(targetContainer);
             completeSkillSelection();
         }
         
@@ -53,7 +53,7 @@ class StandardSkillTargetMode : ISkillTargetMode {
     }
 
     public ISkillSelectConfig InitiateTargeting(AoESkill skill) {
-        var skillSelectConfig = new DelayedSkillSelectConfig<IEnumerable<PhysicalEntity>>(
+        var skillSelectConfig = new DelayedSkillSelectConfig<IEnumerable<EntityContainer>>(
             sourceEntity,
             skill,
             (source, skill, target) => new AoESkillSelectConfig((AoESkill) skill, source, target)
@@ -61,12 +61,17 @@ class StandardSkillTargetMode : ISkillTargetMode {
 
         IEnumerator GetTarget() {
             yield return WaitForTargetClick();
-            
-            // skillSelectConfig.SetTarget(targetEntity);
+            var surroundingEntities = battleController.EntityGrid.GetEntities(
+                targetContainer.Entity.IsFriendly, 
+                targetContainer.Position - skill.Radius, 
+                targetContainer.Position + skill.Radius
+            );
+            skillSelectConfig.SetTarget(surroundingEntities);
             completeSkillSelection();
         }
-        
-        return null;
+
+        battleController.StartCoroutine(GetTarget());
+        return skillSelectConfig;
     }
 
     public ISkillSelectConfig InitiateTargeting(NoTargetSkill skill) {
@@ -76,8 +81,8 @@ class StandardSkillTargetMode : ISkillTargetMode {
     }
 
     private IEnumerator WaitForTargetClick() {
-        targetEntity = null;
-        yield return new WaitUntil(() => targetEntity != null);
+        targetContainer = null;
+        yield return new WaitUntil(() => targetContainer != null);
     }
 
     
